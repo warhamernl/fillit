@@ -10,4 +10,22 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef FILLIT_H
+# define FILLIT_H
 
+#include <stdlib.h>
+#include <unistd.h>
+#include <libft.h>
+
+typedef struct  s_tree
+{
+    char        name;
+    void        *content;
+    size_t      size;
+    s_tree      *next;
+    s_tree      *prev;
+    s_tree      *left;
+    s_tree      *right;
+}               t_tree;
+
+#endif
