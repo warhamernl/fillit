@@ -13,9 +13,9 @@
 #ifndef FILLIT_H
 # define FILLIT_H
 
-#include <stdlib.h>
-#include <unistd.h>
-#include <libft.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <libft.a> // is dit nodig en toegestaan?
 
 typedef struct  s_tree
 {

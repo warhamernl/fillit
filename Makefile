@@ -10,4 +10,28 @@
 #                                                                              #
 # **************************************************************************** #
 
+NAME = fillit
+EXTRA =
+FLAGS = -Wall -Werror -Wextra $(EXTRA)
 
+all: $(NAME)
+
+$(NAME):
+	make -C libft/ && make -C libft/ clean
+	gcc $(FLAGS) -c fillit_dir/*.c
+	gcc $(FLAGS) -o $(NAME) *.o -L libft/ -lft
+
+clean:
+	rm -f *.o
+
+fclean: clean
+	rm $(NAME)
+	rm -Rf $(NAME).dSYM
+	make -C libft/ fclean
+
+re: fclean all
+
+lldb: fclean
+	make -C libft/ && make -C libft/ clean
+	gcc $(FLAGS) -c fillit_dir/*.c
+	gcc $(FLAGS) -g -o $(NAME) *.o -L libft/ -lft
