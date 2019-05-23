@@ -1,21 +1,44 @@
-#include <fcntl.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include "../libft/libft.h"
+#include "fillit.h"
 
-short int	convert(char *str)
+static short int	shift(unsigned short int tetro)
+{
+	int count;
+//	unsigned short int tetri;
+	int i;
+	int bracket[4];
+	int j;
+
+	j = 0;
+	i = 0;
+	count = 0;
+	while (count != 4)
+	{
+		if (tetro & 1 << (15 - i))
+		{
+			bracket[count] = i;
+			count++;
+		}
+		i++;		
+	}
+	count = 0;
+	while (count != 4)
+	{
+		
+	}
+	return (tetro);
+}
+
+static short int	convert(char *str)
 {
 	int i;
 	unsigned short int tetro;
-	int nl;
-	
+	int nl;	
 	nl = 0;
 	tetro = 0;
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == '\n')
+		if (str[i] == '\n' && (i == 4 || i == 9 || i == 14 || i == 19 || i == 20))
 			nl++;
 		if (str[i] == '#')
 		{
@@ -24,11 +47,15 @@ short int	convert(char *str)
 		}
 		i++;
 	}
-	return (tetro);
+	if ((nl != 5 && i == 21 ) || (nl != 4 && i == 20))
+	{
+		printf("error in convert");
+		exit(-1);
+	}
+	return (shift(tetro));
 }
 
-
-int		border (char *str , int i)
+static int		border (char *str , int i)
 {
 	int side;
 
@@ -44,7 +71,7 @@ int		border (char *str , int i)
 	return (side);
 }
 
-int		check(char *str)
+static int		check(char *str)
 {
 	int i;
 	int squarecount;
@@ -85,7 +112,7 @@ int		check(char *str)
 }
 
 
-unsigned short int		lezen(int fd)
+static unsigned short int		lezen(int fd)
 {
 	unsigned short int	tetro;
 	char 		*cache;
@@ -107,7 +134,7 @@ unsigned short int		lezen(int fd)
 	return (tetro);
 }
 
- void opening(char *str, unsigned short int *tetrimino)
+void	opening(char *str, unsigned short int *tetrimino)
 {
 	int			fd;
 	int			i;
@@ -120,7 +147,7 @@ unsigned short int		lezen(int fd)
 		write(1, "Error opining", 6);
 		exit(-1);
 	}
-	while (tetrimino[i] != 0)
+	while (tetrimino[i] == 0)
 	{
 		tetrimino[i] = lezen(fd);
 		if (i == 26)
@@ -134,24 +161,4 @@ unsigned short int		lezen(int fd)
 	}
 	close(fd);
 //	return(tetrimino);
-}
-
-int		main(int argc, char **argv)
-{
-	unsigned short int tetrimino[27] = {1};
-	int i;
-
-	i = 0;
-	if (argc == 2)
-	{
-		while (i < 27)
-		{
-			opening(argv[1], tetrimino);
-			printf("%hu", tetrimino[i]);
-			i++;
-		}
-	}
-	else 
-		write(1, "Error", 6);
-	return(0);
 }

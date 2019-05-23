@@ -5,8 +5,8 @@
 #                                                      +:+                     #
 #    By: kde-wint <kde-wint@student.codam.n>          +#+                      #
 #                                                    +#+                       #
-#    Created: 2019/05/20 14:52:58 by kde-wint      #+#    #+#                  #
-#    Updated: 2019/05/20 14:52:59 by kde-wint      ########   odam.nl          #
+#    Created: 2019/05/20 14:52:58 by kde-wint       #+#    #+#                 #
+#    Updated: 2019/05/23 13:23:55 by mlokhors      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,19 +19,30 @@ all: $(NAME)
 $(NAME):
 	make -C libft/ && make -C libft/ clean
 	gcc $(FLAGS) -c fillit_dir/*.c
-	gcc $(FLAGS) -o $(NAME) *.o -L libft/ -lft
+	gcc $(FLAGS) *.o -L libft/ -lft
+#this needs to compile to executable "fillit" before submission
 
 clean:
 	rm -f *.o
+	rm a.out
 
 fclean: clean
-	rm $(NAME)
-	rm -Rf $(NAME).dSYM
 	make -C libft/ fclean
+#this needs to changed to the standard functioning before submission
 
-re: fclean all
+re: clean all
 
-lldb: fclean
+lldb:
 	make -C libft/ && make -C libft/ clean
-	gcc $(FLAGS) -c fillit_dir/*.c
-	gcc $(FLAGS) -g -o $(NAME) *.o -L libft/ -lft
+	gcc $(FLAGS) -g fillit_dir/*.c -L libft/ -lft
+
+lldbclean:
+	rm a.out
+	rm -Rf a.out.dSYM
+
+lldbfclean:
+	make -C libft/ fclean
+	rm a.out
+	rm -Rf a.out.dSYM
+
+lldbre: lldbclean lldb
