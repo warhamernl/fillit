@@ -5,8 +5,8 @@
 /*                                                     +:+                    */
 /*   By: kde-wint <kde-wint@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/05/20 14:52:49 by kde-wint      #+#    #+#                 */
-/*   Updated: 2019/05/20 14:52:50 by kde-wint      ########   odam.nl         */
+/*   Created: 2019/05/20 14:52:49 by kde-wint       #+#    #+#                */
+/*   Updated: 2019/05/22 14:48:31 by mlokhors      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include <stdlib.h>
 # include <unistd.h>
-# include <libft.a> // is dit nodig en toegestaan?
+//# include <libft.a> // is dit nodig en toegestaan?
 
 typedef struct  s_tree
 {
