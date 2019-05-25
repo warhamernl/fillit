@@ -1,31 +1,74 @@
 #include "fillit.h"
 
-static short int	shift(unsigned short int tetro)
+static short int shift(unsigned short int tetro)
 {
 	int count;
 //	unsigned short int tetri;
 	int i;
 	int bracket[4];
 	int j;
+	int check;
 
-	j = 0;
+	check = 0;
+	j = 1;
 	i = 0;
 	count = 0;
+	while (i < 4)
+	{
+		bracket[i] = 0;
+		i++;
+	}
 	while (count != 4)
 	{
-		if (tetro & 1 << (15 - i))
+		if (tetro & (1 << i))
 		{
 			bracket[count] = i;
 			count++;
 		}
 		i++;		
 	}
-	count = 0;
-	while (count != 4)
+	i = 1;
+	while (bracket[3] + 4 < 16)
 	{
-		
+		tetro <<= 4;
+		bracket[3] += 4;
+		bracket[2] += 4;
+		bracket[1] += 4;
+		bracket[0] += 4;
 	}
-	return (tetro);
+	count  = 0;
+	i = 0;
+	while (count < 4)
+	{
+		if (bracket[count] % 4 == 3)
+		{
+			check = 1;
+			break;
+		}
+		count++;
+	}
+	count = 0;	
+	while (check != 1)
+	{
+		count = 0;
+		while (count < 4)
+		{
+			bracket[count] += 1;
+			count++;
+		}
+		tetro <<= 1;
+		count = 0;
+		while (count < 4)
+		{
+			if (bracket[count] % 4 == 3)
+			{
+				check = 1;
+				break;
+			}
+			count++;
+		}		
+	}
+	return(tetro);
 }
 
 static short int	convert(char *str)
@@ -160,5 +203,4 @@ void	opening(char *str, unsigned short int *tetrimino)
 		i++;	
 	}
 	close(fd);
-//	return(tetrimino);
 }
