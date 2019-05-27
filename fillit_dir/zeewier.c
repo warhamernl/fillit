@@ -1,63 +1,69 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   zeewier.c                                          :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: kde-wint <kde-wint@student.codam.n>          +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2019/05/27 18:01:36 by kde-wint      #+#    #+#                 */
+/*   Updated: 2019/05/27 18:01:40 by kde-wint      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fillit.h"
 
-static void         grid_setter(unsigned short **grid, size_t size)
+static void     grid_setter(t_uint256 *grid, size_t size)
 {
-    int     i;
+    int h;
+    int w;
 
-    i = 0;
-    size *= size;
-    while (size >= 16)
+    h = 0;
+    grid->value[0] = 18446744073709551615;
+    grid->value[1] = 18446744073709551615;
+    grid->value[2] = 18446744073709551615;
+    grid->value[3] = 18446744073709551615;
+    while (h < size)
     {
-        *grid[i] = 0;
-        size -= 16;
-        i++;
-    }
-    if (size > 0)
-    {
-        *grid[i] = 65535;
-        while (size > 0)
+        w = 0;
+        while (w < size) // deze kan ik waarschijnlijk in chunks doen bij grotere speelvelden
         {
-            *grid[i] = ~(1 << 15 - size);
-            size--;
+            *grid->value = ~(1 << 255 - (w + ( h * 16)));
+            w++;
         }
-        i++;
-    }
-    while (i < 16)
-    {
-        *grid[i] = 65535;
-        i++;
     }
 }
 
-int                 can_fit(unsigned short *grid, size_t size, unsigned short tetrimino)
+int             can_fit(t_uint256 *grid, size_t size, t_uint256 tetrimino)
 {
-    unsigned short  orig[16];
-    int                 i;
+    t_uint256           testgrid;
+    int                 h;
+    int                 w;
 
-    orig = grid;
-    i = 0;
-    *grid = *grid & tetrimino;
-    while (i < size)
+    h = 0;
+    while (h < size)
     {
-        if (*(grid + i) & (1<<(255 - i))) // dit checkt of de nieuw-geplaatste tetrimino in conflict is met een al gezette tetrimino
+        w = 0;
+        while (w < size)
         {
-
+            testgrid = *grid->value & (*tetrimino.value >> h * 16 + w);
+            // ifje
+            w++;
         }
-        i++;
+        h++;
     }
     return (0);
 }
 
-unsigned short  *zeewier(unsigned short *tetrimino, size_t size, int i) // size is number of tetriminos
+uint64_t        *zeewier(t_uint256 *tetrimino, size_t size) // size bij eerste call: wortel van (tetriminos * 4) //(decimalen?)
 {
-    unsigned short  grid[16];
+    t_uint256   grid;
 
-    grid_setter(grid, size);
+    grid_setter(&grid, size);
 /*    if (can_fit(grid, size, tetrimino[i]))
     {
 
     }*/
-    return (grid);
+    return (zeewier(tetrimino, size + 1));
 }
 
 /*
