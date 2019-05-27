@@ -1,16 +1,14 @@
 #include "fillit.h"
 
-static short int shift(unsigned short int tetro)
+static uint64_t shift(uint64_t tetro)
 {
 	int count;
-//	unsigned short int tetri;
-	int i;
+	unsigned int i;
 	int bracket[4];
-	int j;
 	int check;
 
 	check = 0;
-	j = 1;
+
 	i = 0;
 	count = 0;
 	while (i < 4)
@@ -18,9 +16,10 @@ static short int shift(unsigned short int tetro)
 		bracket[i] = 0;
 		i++;
 	}
+	i = 0;
 	while (count != 4)
 	{
-		if (tetro & (1 << i))
+		if (tetro & (1ull << i))
 		{
 			bracket[count] = i;
 			count++;
@@ -28,19 +27,19 @@ static short int shift(unsigned short int tetro)
 		i++;		
 	}
 	i = 1;
-	while (bracket[3] + 4 < 16)
+	while (bracket[3] + 16 < 64)
 	{
-		tetro <<= 4;
-		bracket[3] += 4;
-		bracket[2] += 4;
-		bracket[1] += 4;
-		bracket[0] += 4;
+		tetro <<= 16;
+		bracket[3] += 16;
+		bracket[2] += 16;
+		bracket[1] += 16;
+		bracket[0] += 16;
 	}
 	count  = 0;
 	i = 0;
 	while (count < 4)
 	{
-		if (bracket[count] % 4 == 3)
+		if (bracket[count] % 16 == 15)
 		{
 			check = 1;
 			break;
@@ -60,7 +59,7 @@ static short int shift(unsigned short int tetro)
 		count = 0;
 		while (count < 4)
 		{
-			if (bracket[count] % 4 == 3)
+			if (bracket[count] % 16 == 15)
 			{
 				check = 1;
 				break;
@@ -71,11 +70,13 @@ static short int shift(unsigned short int tetro)
 	return(tetro);
 }
 
-static short int	convert(char *str)
+static uint64_t	convert(char *str)
 {
 	int i;
-	unsigned short int tetro;
-	int nl;	
+	uint64_t tetro;
+	int nl;
+
+
 	nl = 0;
 	tetro = 0;
 	i = 0;
@@ -85,8 +86,7 @@ static short int	convert(char *str)
 			nl++;
 		if (str[i] == '#')
 		{
-			
-			tetro |= (1 << (15 - i + nl)); 
+			tetro |= (1ull << ((63 - i + nl) - (nl * 12))); 
 		}
 		i++;
 	}
@@ -126,27 +126,14 @@ static int		check(char *str)
 	while (str[i])
 	{
 		if (str[i] != '\n' && str[i] != '.' && str[i] != '#')
-		{
-			printf("error 1 in check");
-			exit(-1);
-		}
+			return(-1);
 		if (str[i] == '#')
 		{
+			neighbour += border(str, i);
 			squarecount++;
 			if (squarecount > 4)
-			{
-				printf("error 2 in check");
-				exit(-1);
-			}
+				return(-1);
 		}
-		i++;
-	}
-	i = 0;
-	while (str[i] != '#' && str[i] != '\0')
-		i++;
-	while (i < 21)
-	{
-		neighbour += border(str, i);
 		i++;
 	}
 	if (neighbour != 6 && neighbour != 8)
@@ -155,9 +142,9 @@ static int		check(char *str)
 }
 
 
-static unsigned short int		lezen(int fd)
+static uint64_t		lezen(int fd)
 {
-	unsigned short int	tetro;
+	uint64_t	tetro;
 	char 		*cache;
 	int			checki;
 
@@ -177,10 +164,11 @@ static unsigned short int		lezen(int fd)
 	return (tetro);
 }
 
-void	opening(char *str, unsigned short int *tetrimino)
+void	opening(char *str, uint64_t *tetrimino)
 {
 	int			fd;
 	int			i;
+
 	
 	i = 0;
 

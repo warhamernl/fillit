@@ -6,7 +6,7 @@
 /*   By: kde-wint <kde-wint@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/20 14:52:49 by kde-wint       #+#    #+#                */
-/*   Updated: 2019/05/23 16:30:31 by mlokhors      ########   odam.nl         */
+/*   Updated: 2019/05/27 18:13:31 by mlokhors      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef struct      s_tree
     struct s_tree   *right;
 }                   t_tree;
 
-void	opening(char *str, unsigned short int *tetrimino);
+void	opening(char *str, uint64_t *tetrimino);
 
 void print_binary(unsigned short int number); // remove before turning in
 

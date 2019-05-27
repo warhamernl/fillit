@@ -6,7 +6,7 @@
 #    By: kde-wint <kde-wint@student.codam.n>          +#+                      #
 #                                                    +#+                       #
 #    Created: 2019/05/20 14:52:58 by kde-wint       #+#    #+#                 #
-#    Updated: 2019/05/23 13:23:55 by mlokhors      ########   odam.nl          #
+#    Updated: 2019/05/27 20:56:40 by mlokhors      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,12 +37,12 @@ lldb:
 	gcc $(FLAGS) -g fillit_dir/*.c -L libft/ -lft
 
 lldbclean:
-	rm a.out
 	rm -Rf a.out.dSYM
+	rm a.out
 
 lldbfclean:
 	make -C libft/ fclean
-	rm a.out
 	rm -Rf a.out.dSYM
+	rm a.out
 
 lldbre: lldbclean lldb
