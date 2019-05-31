@@ -12,6 +12,12 @@
 
 #include "fillit.h"
 
+// static int   within_bounds(uint64_t *grid, uint64_t tetrimino, int **cubes)
+// this function will check whether the tetrimino would be out-of-bounds, going across the border between two uint64_ts is fine though
+
+// static void  cubes_offsetter(uint64_t tetrimino, int **cubes)
+// this function will input the coordinate of the down-most, right-most cube in cubes[0], and will create off-sets for the other parts of the cube accordingly
+
 static void     grid_setter(size_t size, uint64_t *grid)
 {
     int h;
@@ -35,35 +41,37 @@ static void     grid_setter(size_t size, uint64_t *grid)
 
 int             can_fit(uint64_t tetrimino, size_t size, uint64_t *grid)
 {
-    int         h;
-    int         w;
+    int         cubes[4][2]; // this stores the height and width of the last cube of the tetrimino, and the offset of preceeding elements
 
-    h = 0;
-    while (h < size)
+    cubes_offsetter(tetrimino, &cubes);
+    while (cubes[3][0] < size)
     {
-        w = 0;
-        while (w < size)
+        cubes[3][1] = 0;
+        while (cubes[3][0] < size)
         {
-            if (grid[h / 4] & tetrimino >> w + h % 4 * 16 == 0)
+            if (grid[cubes[3][0] / 4] & tetrimino >> cubes[3][1] + cubes[3][0] % 4 * 16 == 0 &&
+                    within_bounds(&grid, &cubes) &&
+                        fits_entire_grid(&grid, &cubes))
+            {
+                // function/something that actually places the tetrimino in the grid
                 return (1);
-            w++;
+            }
+            cubes[3][1]++;
         }
-        h++;
+        cubes[3][0]++;
     }
     return (0);
 }
 
-uint64_t        *zeewier(uint64_t tetrimino, size_t size) // size bij eerste call: wortel van (tetriminos * 4) //(decimalen?)
+uint64_t        *zeewier(uint64_t *old_grid, uint64_t *tetrimino, int i, size_t size) // size bij eerste call: wortel van (tetriminos * 4) //(decimalen?)
 {
-    uint64_t    grid[4];
+    uint64_t    new_grid[4];
 
-    grid_setter(size, &grid);
-    can_fit(tetrimino, size, &grid);
-/*    if (can_fit(grid, size, tetrimino[i]))
-    {
-
-    }*/
-    return (zeewier(tetrimino, size + 1));
+//    if (old_grid == NULL)
+//        grid_setter(size, &old_grid);
+    grid_setter(size, &new_grid);
+    can_fit(tetrimino, size, &new_grid);
+    return (zeewier(new_grid, tetrimino, i, size + 1));
 }
 
 /*
