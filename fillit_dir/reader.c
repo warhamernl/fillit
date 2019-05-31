@@ -1,52 +1,11 @@
 #include "fillit.h"
 
-static uint64_t shift(uint64_t tetro)
+
+static void	tetromove(int check, int *bracket, uint64_t *tetro)
 {
 	int count;
-	unsigned int i;
-	int bracket[4];
-	int check;
 
-	check = 0;
-
-	i = 0;
 	count = 0;
-	while (i < 4)
-	{
-		bracket[i] = 0;
-		i++;
-	}
-	i = 0;
-	while (count != 4)
-	{
-		if (tetro & (1ull << i))
-		{
-			bracket[count] = i;
-			count++;
-		}
-		i++;		
-	}
-	i = 1;
-	while (bracket[3] + 16 < 64)
-	{
-		tetro <<= 16;
-		bracket[3] += 16;
-		bracket[2] += 16;
-		bracket[1] += 16;
-		bracket[0] += 16;
-	}
-	count  = 0;
-	i = 0;
-	while (count < 4)
-	{
-		if (bracket[count] % 16 == 15)
-		{
-			check = 1;
-			break;
-		}
-		count++;
-	}
-	count = 0;	
 	while (check != 1)
 	{
 		count = 0;
@@ -55,7 +14,7 @@ static uint64_t shift(uint64_t tetro)
 			bracket[count] += 1;
 			count++;
 		}
-		tetro <<= 1;
+		*tetro <<= 1;
 		count = 0;
 		while (count < 4)
 		{
@@ -67,6 +26,69 @@ static uint64_t shift(uint64_t tetro)
 			count++;
 		}		
 	}
+}
+
+static 	int	checkit(int *bracket)
+{
+	int count;
+
+	count = 0;
+	while (count < 4)
+	{
+		if (bracket[count] % 16 == 15)
+			return(1);
+		count++;
+	}
+	return (0);
+}
+
+static	void movebracket(int *bracket, uint64_t *tetro)
+{
+	while (bracket[3] + 16 < 64)
+	{
+		*tetro <<= 16;
+		bracket[3] += 16;
+		bracket[2] += 16;
+		bracket[1] += 16;
+		bracket[0] += 16;
+	}
+}
+
+static	void inzero(uint64_t tetro, int *bracket)
+{
+	int i;
+	int count;
+
+	count = 0;
+	i = 0;
+	while (i < 4)
+	{
+		bracket[i] = 0;
+		i++;
+	}
+	while (count != 4)
+	{
+		if (tetro & (1ull << i))
+		{
+			bracket[count] = i;
+			count++;
+		}
+		i++;		
+	}
+}
+
+static uint64_t shift(uint64_t tetro)
+{
+	int count;
+	int bracket[4];
+	int check;
+
+	count = 0;
+	check = 0;
+	inzero(tetro, bracket);
+	movebracket(bracket, &tetro);
+	check = checkit(bracket);
+	tetromove(check, bracket, &tetro);
 	return(tetro);
 }
 
@@ -75,7 +97,6 @@ static uint64_t	convert(char *str)
 	int i;
 	uint64_t tetro;
 	int nl;
-
 
 	nl = 0;
 	tetro = 0;
@@ -169,9 +190,7 @@ void	opening(char *str, uint64_t *tetrimino)
 	int			fd;
 	int			i;
 
-	
 	i = 0;
-
 	fd = open(str, O_RDONLY);
 	if (fd == -1)
 	{
