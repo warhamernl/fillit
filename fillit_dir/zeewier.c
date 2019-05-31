@@ -12,32 +12,31 @@
 
 #include "fillit.h"
 
-static void     grid_setter(t_uint256 *grid, size_t size)
+static void     grid_setter(size_t size, uint64_t *grid)
 {
     int h;
     int w;
 
     h = 0;
-    grid->value[0] = 18446744073709551615;
-    grid->value[1] = 18446744073709551615;
-    grid->value[2] = 18446744073709551615;
-    grid->value[3] = 18446744073709551615;
+    grid[0] = 18446744073709551615;
+    grid[1] = 18446744073709551615;
+    grid[2] = 18446744073709551615;
+    grid[3] = 18446744073709551615;
     while (h < size)
     {
         w = 0;
-        while (w < size) // deze kan ik waarschijnlijk in chunks doen bij grotere speelvelden
+        while (w < size) // tip: deze kan ik waarschijnlijk in chunks doen bij grotere speelvelden
         {
-            *grid->value = ~(1 << 255 - (w + ( h * 16)));
+            grid[h / 4] = ~(1 << 63 - (w + h % 4 * 16));
             w++;
         }
     }
 }
 
-int             can_fit(t_uint256 *grid, size_t size, t_uint256 tetrimino)
+int             can_fit(uint64_t tetrimino, size_t size, uint64_t *grid)
 {
-    t_uint256           testgrid;
-    int                 h;
-    int                 w;
+    int         h;
+    int         w;
 
     h = 0;
     while (h < size)
@@ -45,8 +44,8 @@ int             can_fit(t_uint256 *grid, size_t size, t_uint256 tetrimino)
         w = 0;
         while (w < size)
         {
-            testgrid = *grid->value & (*tetrimino.value >> h * 16 + w);
-            // ifje
+            if (grid[h / 4] & tetrimino >> w + h % 4 * 16 == 0)
+                return (1);
             w++;
         }
         h++;
@@ -54,11 +53,12 @@ int             can_fit(t_uint256 *grid, size_t size, t_uint256 tetrimino)
     return (0);
 }
 
-uint64_t        *zeewier(t_uint256 *tetrimino, size_t size) // size bij eerste call: wortel van (tetriminos * 4) //(decimalen?)
+uint64_t        *zeewier(uint64_t tetrimino, size_t size) // size bij eerste call: wortel van (tetriminos * 4) //(decimalen?)
 {
-    t_uint256   grid;
+    uint64_t    grid[4];
 
-    grid_setter(&grid, size);
+    grid_setter(size, &grid);
+    can_fit(tetrimino, size, &grid);
 /*    if (can_fit(grid, size, tetrimino[i]))
     {
 
