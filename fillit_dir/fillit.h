@@ -6,7 +6,7 @@
 /*   By: kde-wint <kde-wint@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/20 14:52:49 by kde-wint       #+#    #+#                */
-/*   Updated: 2019/05/27 18:13:31 by mlokhors      ########   odam.nl         */
+/*   Updated: 2019/05/31 19:04:17 by mlokhors      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,6 @@ typedef struct  s_uint256
 void	opening(char *str, uint64_t *tetrimino);
 
 void print_binary(unsigned short int number); // remove before turning in
+void  cubes_offsetter(uint64_t tetrimino, int **cubes);
 
 #endif
