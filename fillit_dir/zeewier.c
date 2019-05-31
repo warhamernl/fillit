@@ -39,7 +39,7 @@ static void     grid_setter(size_t size, uint64_t *grid)
     }
 }
 
-int             can_fit(uint64_t tetrimino, size_t size, uint64_t *grid)
+static int      can_fit(uint64_t tetrimino, size_t size, uint64_t *grid)
 {
     int         cubes[4][2]; // this stores the height and width of the last cube of the tetrimino, and the offset of preceeding elements
 
@@ -53,7 +53,7 @@ int             can_fit(uint64_t tetrimino, size_t size, uint64_t *grid)
                     within_bounds(&grid, &cubes) &&
                         fits_entire_grid(&grid, &cubes))
             {
-                // function/something that actually places the tetrimino in the grid
+                // line that actually places the tetrimino in the grid
                 return (1);
             }
             cubes[3][1]++;
@@ -63,15 +63,36 @@ int             can_fit(uint64_t tetrimino, size_t size, uint64_t *grid)
     return (0);
 }
 
-uint64_t        *zeewier(uint64_t *old_grid, uint64_t *tetrimino, int i, size_t size) // size bij eerste call: wortel van (tetriminos * 4) //(decimalen?)
+static int  recursor(uint64_t *tetrimino, int i, uint64_t *grid, size_t size)
 {
-    uint64_t    new_grid[4];
+    if (i == 26) // any chance I can shove this into a different part of this function? i don't like this check being run constantly
+        return (1);
+    if (can_fit(tetrimino[i], size, grid))
+    {
+        if (recursor(tetrimino, i + 1, grid, size)) // here it tries to place the next tetri
+            return (1);
+        else
+        {
+            // PLACEHOLDER remove the tetri this function placed if the recursion-branch doesn't work out
+            return (0);
+        }
+    }
+        return (0);
+}
 
-//    if (old_grid == NULL)
-//        grid_setter(size, &old_grid);
-    grid_setter(size, &new_grid);
-    can_fit(tetrimino, size, &new_grid);
-    return (zeewier(new_grid, tetrimino, i, size + 1));
+uint64_t        *zeewier(uint64_t *tetrimino) // size bij eerste call: wortel van (tetriminos * 4) //(decimalen?)
+{
+    uint64_t    grid[4];
+    char        size;
+
+    size = 0;
+    while (tetrimino[size] != NULL)
+        size++;
+    size = ft_root(size * 4); // of moet dit zijn: size = (size * 4) / 2
+    grid_setter(size, &grid);
+    while (recursor(tetrimino, 0, grid, size) == 0 && size < 26)
+        size++;
+    return (&grid);
 }
 
 /*
