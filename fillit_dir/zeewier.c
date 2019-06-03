@@ -18,6 +18,23 @@
 // static void  cubes_offsetter(uint64_t tetrimino, int **cubes)
 // this function will input the coordinate of the down-most, right-most cube in cubes[0], and will create off-sets for the other parts of the cube accordingly
 
+static int      fits_entire_grid(uint64_t *grid, char **cubes)
+{
+    char    i;
+
+    i = 0;
+    while (i < 3)
+    {
+        (cubes[3][0] % 4 + cubes[i][0]) * 16 + 
+        if (cubes[3][0] % 4 + cubes[i][0] < 0)
+        {
+
+        }
+        i++;
+    }
+    return(-1);
+}
+
 static void     grid_setter(size_t size, uint64_t *grid)
 {
     int h;
@@ -39,21 +56,22 @@ static void     grid_setter(size_t size, uint64_t *grid)
     }
 }
 
-static int      can_fit(uint64_t tetrimino, size_t size, uint64_t *grid)
+static int      can_fit(uint64_t tetrimino, char size, uint64_t *grid)
 {
-    int         cubes[4][2]; // this stores the height and width of the last cube of the tetrimino, and the offset of preceeding elements
+    char        cubes[4][2]; // this stores the height and width of the last cube of the tetrimino, and the offset of preceeding elements
+    char        walker[2];
 
-    cubes_offsetter(tetrimino, &cubes);
-    while (cubes[3][0] < size)
+    walker[0] = cubes[3][0];
+    walker[1] = cubes[3][1];
+    cubes_offsetter(tetrimino, cubes);
+    while (walker[0] < size)
     {
-        cubes[3][1] = 0;
+        walker[1] = cubes[3][1];
         while (cubes[3][0] < size)
         {
-            if (grid[cubes[3][0] / 4] & tetrimino >> cubes[3][1] + cubes[3][0] % 4 * 16 == 0 &&
-                    within_bounds(&grid, &cubes) &&
-                        fits_entire_grid(&grid, &cubes))
+            if (grid[cubes[3][0] / 4] & tetrimino >> cubes[3][1] + cubes[3][0] % 4 * 16 == 0 && within_bounds(&grid, &cubes) && fits_entire_grid(&grid, &cubes))
             {
-                // line that actually places the tetrimino in the grid
+                // function that actually places the tetrimino in the grid
                 return (1);
             }
             cubes[3][1]++;
@@ -63,7 +81,7 @@ static int      can_fit(uint64_t tetrimino, size_t size, uint64_t *grid)
     return (0);
 }
 
-static int  recursor(uint64_t *tetrimino, int i, uint64_t *grid, size_t size)
+static char  recursor(uint64_t *tetrimino, char i, uint64_t *grid, char size)
 {
     if (i == 26) // any chance I can shove this into a different part of this function? i don't like this check being run constantly
         return (1);
@@ -92,7 +110,7 @@ uint64_t        *zeewier(uint64_t *tetrimino) // size bij eerste call: wortel va
     grid_setter(size, &grid);
     while (recursor(tetrimino, 0, grid, size) == 0 && size < 26)
         size++;
-    return (&grid);
+    return (&grid); // zijn er gevallen waar iets anders gereturned moet worden? invalid input/impossible solutions?
 }
 
 /*
