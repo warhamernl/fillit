@@ -24,7 +24,7 @@ int		main(int argc, char **argv)
 			printf("%llu\n", tetrimino[i]);
 			i++;
 		}
-		cubes_offsetter(tetrimino[1], (int **)cubes);
+		cubes_offsetter(tetrimino[0], cubes);
 		while (d < 4)
 		{
 			printf("height %d, weight %d", cubes[d][0], cubes[d][1]);
