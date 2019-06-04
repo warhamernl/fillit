@@ -67,16 +67,16 @@ static int      can_fit(uint64_t tetrimino, char size, uint64_t *grid)
     while (walker[0] < size)
     {
         walker[1] = cubes[3][1];
-        while (cubes[3][0] < size)
+        while (walker[1] < size)
         {
-            if (grid[cubes[3][0] / 4] & tetrimino >> cubes[3][1] + cubes[3][0] % 4 * 16 == 0 && within_bounds(&grid, &cubes) && fits_entire_grid(&grid, &cubes))
+            if (grid[walker[0] / 4] & tetrimino >> (walker[1] - cubes[3][1]) + (walker[0] - cubes[3][0]) % 4 * 16 == 0 && within_bounds(&grid, &cubes) && fits_entire_grid(&grid, &cubes))
             {
                 // function that actually places the tetrimino in the grid
                 return (1);
             }
-            cubes[3][1]++;
+            walker[1]++;
         }
-        cubes[3][0]++;
+        walker[0]++;
     }
     return (0);
 }
