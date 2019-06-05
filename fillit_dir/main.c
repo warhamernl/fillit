@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   main.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: mlokhors <mlokhors@student.codam.n>          +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2019/06/05 18:28:34 by mlokhors      #+#    #+#                 */
+/*   Updated: 2019/06/05 18:41:51 by mlokhors      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fillit.h"
 
 int		main(int argc, char **argv)
@@ -5,6 +17,7 @@ int		main(int argc, char **argv)
 	int i;
 	int d;
 	struct s_tetrimino tetriminos[27];
+	uint64_t			*grid;
 
 	d = 0;
 	i = 0;
@@ -49,6 +62,7 @@ int		main(int argc, char **argv)
 	}
 	else 
 		write(1, "Usage: Source File Missing", 26); // moet nog goeie omschrijving maken KIMMY YOU CAN DO THIS CauSE YOU HANDY WITH WORDS
+	grid = zeewier(tetriminos); // dit was om de syntax van zeewier te testen - Kim
 	return(0);
 }
 /*
