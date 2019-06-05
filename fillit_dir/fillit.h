@@ -6,7 +6,7 @@
 /*   By: kde-wint <kde-wint@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/20 14:52:49 by kde-wint       #+#    #+#                */
-/*   Updated: 2019/06/03 16:51:06 by mlokhors      ########   odam.nl         */
+/*   Updated: 2019/06/05 17:42:03 by mlokhors      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,15 @@ typedef struct  s_uint256
  typedef uint64_t t_uint256[4]; dit is ook mogelijk maar minder expliciet
 */
 
-void	opening(char *str, uint64_t *tetrimino);
 
-void print_binary(unsigned short int number); // remove before turning in
-void  cubes_offsetter(uint64_t tetrimino, int cubes[4][2]);
+
+struct              s_tetrimino
+{
+    uint64_t        binary_tetrimino;
+    short int				cubes[5][2];
+};
+
+void	opening(char *str, struct s_tetrimino tetriminos[27]);
+void  cubes_offsetter(uint64_t tetrimino, short int cubes[5][2]);
 
 #endif
