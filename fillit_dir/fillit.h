@@ -6,7 +6,7 @@
 /*   By: kde-wint <kde-wint@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/20 14:52:49 by kde-wint       #+#    #+#                */
-/*   Updated: 2019/06/03 16:51:06 by mlokhors      ########   odam.nl         */
+/*   Updated: 2019/06/05 17:42:03 by mlokhors      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ struct              s_tetrimino
     short int       cubes[5][2];
 };
 
-void	opening(char *str, uint64_t *tetrimino);
-void  cubes_offsetter(uint64_t tetrimino, int cubes[4][2]);
-void print_binary(unsigned short int number); // remove before turning in
+void                opening(char *str, struct s_tetrimino tetriminos[27]);
+void                cubes_offsetter(uint64_t tetrimino, short int cubes[5][2]);
+// void print_binary(unsigned short int number); // remove before turning in
 
 #endif

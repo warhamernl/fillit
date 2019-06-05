@@ -1,7 +1,7 @@
 
 #include "fillit.h"
 
-void  cubes_offsetter(uint64_t tetrimino, int cubes[4][2])
+void  cubes_offsetter(uint64_t tetrimino, short int cubes[5][2])
 {
 	int i;
 	int count;
@@ -38,4 +38,6 @@ void  cubes_offsetter(uint64_t tetrimino, int cubes[4][2])
 		}
 		count++;
 	}
+	cubes[4][0] = cubes[3][0];
+	cubes[4][1] = cubes[3][1];
 }

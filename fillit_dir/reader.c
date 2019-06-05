@@ -111,7 +111,7 @@ static uint64_t	convert(char *str)
 		}
 		i++;
 	}
-	if ((nl != 5 && i == 21 ) || (nl != 4 && i == 20))
+	if (nl != 5 && i == 20)
 	{
 		printf("error in convert");
 		exit(-1);
@@ -185,7 +185,7 @@ static uint64_t		lezen(int fd)
 	return (tetro);
 }
 
-void	opening(char *str, uint64_t *tetrimino)
+void	opening(char *str, struct s_tetrimino tetriminos[27])
 {
 	int			fd;
 	int			i;
@@ -197,15 +197,15 @@ void	opening(char *str, uint64_t *tetrimino)
 		write(1, "Error opining", 6);
 		exit(-1);
 	}
-	while (tetrimino[i] == 0)
+	while (tetriminos[i].binary_tetrimino == 0)
 	{
-		tetrimino[i] = lezen(fd);
+		tetriminos[i].binary_tetrimino = lezen(fd);
 		if (i == 26)
 		{
 			printf("Error 26 tetro bereikt");
 			exit(-1);
 		}
-		if (tetrimino[i] == 0)
+		if (tetriminos[i].binary_tetrimino == 0)
 			break;
 		i++;	
 	}
