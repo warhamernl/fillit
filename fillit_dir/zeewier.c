@@ -56,20 +56,15 @@ static void     grid_setter(size_t size, uint64_t *grid)
     }
 }
 
-static int      can_fit(uint64_t tetrimino, char size, uint64_t *grid)
+static int      can_fit(struct s_tetrimino *tetrimino, char size, uint64_t *grid) // size nodig?
 {
-    char        cubes[4][2]; // this stores the height and width of the last cube of the tetrimino, and the offset of preceeding elements
-    char        walker[2];
-
-    walker[0] = cubes[3][0];
-    walker[1] = cubes[3][1];
-    cubes_offsetter(tetrimino, cubes);
-    while (walker[0] < size)
+    (*tetrimino).cubes[4][0] = (*tetrimino).cubes[3][0]; // hoogte van 4de(laatste) cube
+    while ((*tetrimino).cubes[4][0] < size)
     {
-        walker[1] = cubes[3][1];
-        while (walker[1] < size)
+        (*tetrimino).cubes[4][1] = (*tetrimino).cubes[3][1];
+        while ((*tetrimino).cubes[4][1] < size)
         {
-            if (grid[walker[0] / 4] & tetrimino >> (walker[1] - cubes[3][1]) + (walker[0] - cubes[3][0]) % 4 * 16 == 0 && within_bounds(&grid, &cubes) && fits_entire_grid(&grid, &cubes))
+            if (grid[(*tetrimino).cubes[4][0] / 4] & (*tetrimino).binary_tetrimino >> ((*tetrimino).cubes[4][1] - cubes[3][1]) + (walker[0] - cubes[3][0]) % 4 * 16 == 0 && within_bounds(&grid, &cubes) && fits_entire_grid(&grid, &cubes))
             {
                 // function that actually places the tetrimino in the grid
                 return (1);
@@ -81,11 +76,11 @@ static int      can_fit(uint64_t tetrimino, char size, uint64_t *grid)
     return (0);
 }
 
-static char  recursor(uint64_t *tetrimino, char i, uint64_t *grid, char size)
+static char  recursor(struct s_tetrimino **tetriminos, char i, uint64_t *grid, char size)
 {
-    if (i == 26) // any chance I can shove this into a different part of this function? i don't like this check being run constantly
+    if (tetriminos[i] == NULL) // any chance I can shove this into a different part of this function? i don't like this check being run constantly
         return (1);
-    if (can_fit(tetrimino[i], size, grid))
+    if (can_fit(tetriminos[i], size, grid))
     {
         if (recursor(tetrimino, i + 1, grid, size)) // here it tries to place the next tetri
             return (1);
@@ -98,17 +93,17 @@ static char  recursor(uint64_t *tetrimino, char i, uint64_t *grid, char size)
         return (0);
 }
 
-uint64_t        *zeewier(uint64_t *tetrimino) // size bij eerste call: wortel van (tetriminos * 4) //(decimalen?)
+uint64_t        *zeewier(struct s_tetrimino **tetriminos)
 {
     uint64_t    grid[4];
     char        size;
 
     size = 0;
-    while (tetrimino[size] != NULL)
+    while (tetriminos[size] != NULL)
         size++;
-    size = ft_root(size * 4); // of moet dit zijn: size = (size * 4) / 2
+    size = ft_root(size * 4);
     grid_setter(size, &grid);
-    while (recursor(tetrimino, 0, grid, size) == 0 && size < 26)
+    while (recursor(tetriminos, 0, grid, size) == 0 && size < 26)
         size++;
     return (&grid); // zijn er gevallen waar iets anders gereturned moet worden? invalid input/impossible solutions?
 }
