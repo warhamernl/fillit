@@ -6,7 +6,7 @@
 /*   By: kde-wint <kde-wint@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/27 18:01:36 by kde-wint       #+#    #+#                */
-/*   Updated: 2019/06/09 15:24:38 by mlokhors      ########   odam.nl         */
+/*   Updated: 2019/06/09 19:04:40 by mlokhors      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
 MARK:
 Als je tijd over hebt, heb ik de volgende dingen nog nodig...
-    - functie beschreven in de "PLACEHOLDER" in recursor
+    - functie beschreven in de "PLACEHOLDER" in recursor 
 */
 
 static int      fits_entire_grid(uint64_t *grid, short int cubes[5][2])
@@ -40,10 +40,10 @@ static void     grid_setter(uint64_t *grid, short int size)
     int w;
 
     h = 0;
-    grid[0] = 9223372036854775807;
-    grid[1] = 9223372036854775807;
-    grid[2] = 9223372036854775807;
-    grid[3] = 9223372036854775807;
+    grid[0] = 9223372036854775807LL * 2ULL + 1ULL;
+    grid[1] = 9223372036854775807LL * 2ULL + 1ULL;
+    grid[2] = 9223372036854775807LL * 2ULL + 1ULL;
+    grid[3] = 9223372036854775807LL * 2ULL + 1ULL;
     while (h < size)
     {
         w = 0;
@@ -52,7 +52,26 @@ static void     grid_setter(uint64_t *grid, short int size)
             grid[h / 4] = ~(1 << (63 - (w + h % 4 * 16)));
             w++;
         }
+        h++;
     }
+    h = 0; // dit alles heeft mark gecopied van de main om grid_setter te testen
+    w = 0;
+    while (h < 4)
+		{
+			w = 0;
+			while (w < 64)
+			{
+				if (grid[h] & 1ull << w)
+					printf("1");
+				else 
+					printf("0");
+				if ((w + 1) % 16 == 0 && w != 0)
+					printf("\n");
+				w++;	
+			}
+			h++;
+			printf("\n");
+		}
 }
 
 static int      can_fit(struct s_tetrimino *tetrimino, uint64_t *grid, short int size)
@@ -77,11 +96,11 @@ static int      can_fit(struct s_tetrimino *tetrimino, uint64_t *grid, short int
     return (0);
 }
 
-static char  recursor(struct s_tetrimino **tetriminos, short int i, uint64_t *grid, short int size)
+static char  recursor(struct s_tetrimino *tetriminos, short int i, uint64_t *grid, short int size)
 {
-    if (tetriminos[i] == NULL)
+    if (tetriminos[i].binary_tetrimino == 0)
         return (1);
-    if (can_fit(tetriminos[i], grid, size))
+    if (can_fit(&tetriminos[i], grid, size))
     {
         if (recursor(tetriminos, i + 1, grid, size))
             return (1);
@@ -101,9 +120,9 @@ void        zeewier(struct s_tetrimino *tetriminos, uint64_t *grid)
     size = 0;
     while (tetriminos[size].binary_tetrimino != 0)
         size++;
-    size = ft_sqrt(size * 4);
+    size = (short int)ft_sqrt(size * 4);
     grid_setter(grid, size);
-    while (recursor(&tetriminos, 0, grid, size) == 0 && size < 26)
+    while (recursor(tetriminos, 0, grid, size) == 0 && size < 26)
         size++;
 }
 

@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_squareroot.c                                    :+:    :+:            */
+/*   ft_sqrt.c                                          :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: kde-wint <kde-wint@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/06/09 12:52:27 by kde-wint      #+#    #+#                 */
-/*   Updated: 2019/06/09 13:13:59 by kde-wint      ########   odam.nl         */
+/*   Created: 2019/06/09 12:52:27 by kde-wint       #+#    #+#                */
+/*   Updated: 2019/06/09 17:37:37 by kde-wint      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_sqrt(int x)
+double	ft_sqrt(double x)
 {
 	float	temp;
 	float	sqt;

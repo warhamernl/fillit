@@ -6,18 +6,18 @@
 /*   By: mlokhors <mlokhors@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/06/05 18:42:26 by mlokhors       #+#    #+#                */
-/*   Updated: 2019/06/09 15:26:20 by mlokhors      ########   odam.nl         */
+/*   Updated: 2019/06/09 18:17:29 by mlokhors      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
-void	remove_tetri(struct s_tetrimino **tetriminos, short int i, uint64_t *grid)
+void	remove_tetri(struct s_tetrimino *tetriminos, short int i, uint64_t *grid)
 {
-	    	grid[(*tetriminos)[i].cubes[4][0] / 4] = ~(1 << (63 - ((*tetriminos)[i].cubes[4][1] + (*tetriminos)[i].cubes[4][0] % 4 * 16)));
-            grid[((*tetriminos)[i].cubes[4][0] + (*tetriminos)[i].cubes[0][0]) / 4] = ~(1 << (63 - (((*tetriminos)[i].cubes[0][1] + (*tetriminos)[i].cubes[0][0]) % 4 * 16)));
-            grid[((*tetriminos)[i].cubes[4][0] + (*tetriminos)[i].cubes[1][0]) / 4] = ~(1 << (63 - (((*tetriminos)[i].cubes[1][1] + (*tetriminos)[i].cubes[1][0]) % 4 * 16)));
-            grid[((*tetriminos)[i].cubes[4][0] + (*tetriminos)[i].cubes[2][0]) / 4] = ~(1 << (63 - (((*tetriminos)[i].cubes[2][1] + (*tetriminos)[i].cubes[2][0]) % 4 * 16)));
+	    	grid[tetriminos[i].cubes[4][0] / 4] = ~(1 << (63 - (tetriminos[i].cubes[4][1] + tetriminos[i].cubes[4][0] % 4 * 16)));
+            grid[(tetriminos[i].cubes[4][0] + tetriminos[i].cubes[0][0]) / 4] = ~(1 << (63 - ((tetriminos[i].cubes[0][1] + tetriminos[i].cubes[0][0]) % 4 * 16)));
+            grid[(tetriminos[i].cubes[4][0] + tetriminos[i].cubes[1][0]) / 4] = ~(1 << (63 - ((tetriminos[i].cubes[1][1] + tetriminos[i].cubes[1][0]) % 4 * 16)));
+            grid[(tetriminos[i].cubes[4][0] + tetriminos[i].cubes[2][0]) / 4] = ~(1 << (63 - ((tetriminos[i].cubes[2][1] + tetriminos[i].cubes[2][0]) % 4 * 16)));
 }
 
 void     place_tetri(struct s_tetrimino *tetrimino, uint64_t *grid)

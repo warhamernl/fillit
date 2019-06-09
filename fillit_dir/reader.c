@@ -5,8 +5,8 @@
 /*                                                     +:+                    */
 /*   By: mlokhors <mlokhors@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/06/05 18:41:59 by mlokhors      #+#    #+#                 */
-/*   Updated: 2019/06/05 18:42:18 by mlokhors      ########   odam.nl         */
+/*   Created: 2019/06/05 18:41:59 by mlokhors       #+#    #+#                */
+/*   Updated: 2019/06/09 15:43:51 by mlokhors      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ static uint64_t	convert(char *str)
 		}
 		i++;
 	}
-	if (nl != 5 && i == 20)
+	if (nl != 5 && i == 21)
 	{
 		printf("error in convert");
 		exit(-1);
