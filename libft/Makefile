@@ -6,7 +6,7 @@
 #    By: kde-wint <kde-wint@student.codam.n>          +#+                      #
 #                                                    +#+                       #
 #    Created: 2019/03/23 11:43:57 by kde-wint       #+#    #+#                 #
-#    Updated: 2019/05/20 14:51:50 by kde-wint      ########   odam.nl          #
+#    Updated: 2019/06/09 13:14:34 by kde-wint      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +43,7 @@ SRC = atoi \
 	  putnbr_fd \
 	  putstr \
 	  putstr_fd \
+	  sqrt \
 	  strcap \
 	  strcat \
 	  strchr \

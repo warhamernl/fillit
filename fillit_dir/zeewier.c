@@ -6,7 +6,7 @@
 /*   By: kde-wint <kde-wint@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/27 18:01:36 by kde-wint       #+#    #+#                */
-/*   Updated: 2019/06/09 11:48:29 by mlokhors      ########   odam.nl         */
+/*   Updated: 2019/06/09 15:24:38 by mlokhors      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,7 @@ Als je tijd over hebt, heb ik de volgende dingen nog nodig...
     - functie beschreven in de "PLACEHOLDER" in recursor
 */
 
-
-static int      fits_entire_grid(uint64_t *grid, char **cubes) // Unfinished.
+static int      fits_entire_grid(uint64_t *grid, short int cubes[5][2])
 {
     short int   i;
 
@@ -27,8 +26,8 @@ static int      fits_entire_grid(uint64_t *grid, char **cubes) // Unfinished.
     while (i < 3)
     {
         if (cubes[4][0] % 4 + cubes[i][0] < 0)
-            if (grid[(cubes[4][0] + cubes[i][0]) % 4] &
-                1 << (63 - ((cubes[4][1] + cubes[i][1]) + (cubes[4][0] + cubes[i][0]) % 4 * 16)) != 0)
+            if ((grid[(cubes[4][0] + cubes[i][0]) % 4] &
+                1 << (63 - ((cubes[4][1] + cubes[i][1]) + (cubes[4][0] + cubes[i][0]) % 4 * 16))) != 0)
                 return (0);
         i++;
     }
@@ -41,16 +40,16 @@ static void     grid_setter(uint64_t *grid, short int size)
     int w;
 
     h = 0;
-    grid[0] = 18446744073709551615;
-    grid[1] = 18446744073709551615;
-    grid[2] = 18446744073709551615;
-    grid[3] = 18446744073709551615;
+    grid[0] = 9223372036854775807;
+    grid[1] = 9223372036854775807;
+    grid[2] = 9223372036854775807;
+    grid[3] = 9223372036854775807;
     while (h < size)
     {
         w = 0;
         while (w < size) // tip: deze kan ik misschien in chunks doen bij grotere speelvelden
         {
-            grid[h / 4] = ~(1 << 63 - (w + h % 4 * 16));
+            grid[h / 4] = ~(1 << (63 - (w + h % 4 * 16)));
             w++;
         }
     }
@@ -64,8 +63,8 @@ static int      can_fit(struct s_tetrimino *tetrimino, uint64_t *grid, short int
         (*tetrimino).cubes[4][1] = (*tetrimino).cubes[3][1];
         while ((*tetrimino).cubes[4][1] < size)
         {
-            if (grid[(*tetrimino).cubes[4][0] / 4] & (*tetrimino).binary_tetrimino >>
-                ((*tetrimino).cubes[4][1] - (*tetrimino).cubes[3][1]) + ((*tetrimino).cubes[4][0] - (*tetrimino).cubes[3][0]) % 4 * 16 == 0 &&
+            if ((grid[(*tetrimino).cubes[4][0] / 4] & (*tetrimino).binary_tetrimino >>
+                (((*tetrimino).cubes[4][1] - (*tetrimino).cubes[3][1]) + ((*tetrimino).cubes[4][0] - (*tetrimino).cubes[3][0]) % 4 * 16)) == 0 &&
                     fits_entire_grid(grid, (*tetrimino).cubes))
             {
                 place_tetri(tetrimino, grid);
@@ -88,26 +87,24 @@ static char  recursor(struct s_tetrimino **tetriminos, short int i, uint64_t *gr
             return (1);
         else
         {
-            // PLACEHOLDER: function call to remove the tetri this function placed if the recursion-branch doesn't work out
+            remove_tetri(tetriminos, i, grid);
             return (0);
         }
     }
-        return (0);
+    return (0);
 }
 
-uint64_t        *zeewier(struct s_tetrimino **tetriminos)
+void        zeewier(struct s_tetrimino *tetriminos, uint64_t *grid)
 {
-    uint64_t    grid[4];
     short int   size;
 
     size = 0;
-    while (tetriminos[size] != NULL)
+    while (tetriminos[size].binary_tetrimino != 0)
         size++;
-    size = ft_root(size * 4);
+    size = ft_sqrt(size * 4);
     grid_setter(grid, size);
-    while (recursor(tetriminos, 0, grid, size) == 0 && size < 26)
+    while (recursor(&tetriminos, 0, grid, size) == 0 && size < 26)
         size++;
-    return (grid); // zijn er gevallen waar iets anders gereturned moet worden? invalid input/impossible solutions?
 }
 
 /*

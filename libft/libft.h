@@ -6,7 +6,7 @@
 /*   By: kde-wint <kde-wint@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/23 11:41:56 by kde-wint       #+#    #+#                */
-/*   Updated: 2019/05/04 15:51:16 by mlokhors      ########   odam.nl         */
+/*   Updated: 2019/06/09 13:15:29 by kde-wint      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void				ft_putnbr(int n);
 void				ft_putnbr_fd(int n, int fd);
 void				ft_putstr(char const *s);
 void				ft_putstr_fd(char const *s, int fd);
+int					ft_sqrt(int x);
 char				*ft_strcat(char *s1, const char *s2);
 char				*ft_strchr(const char *s, int c);
 void				ft_strclr(char *s);

@@ -5,8 +5,8 @@
 /*                                                     +:+                    */
 /*   By: mlokhors <mlokhors@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/06/05 18:28:34 by mlokhors      #+#    #+#                 */
-/*   Updated: 2019/06/05 18:41:51 by mlokhors      ########   odam.nl         */
+/*   Created: 2019/06/05 18:28:34 by mlokhors       #+#    #+#                */
+/*   Updated: 2019/06/09 15:32:54 by mlokhors      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,13 @@ int		main(int argc, char **argv)
 {
 	int i;
 	int d;
+	//int gridi;
+	//int gridd;
 	struct s_tetrimino tetriminos[27];
-	uint64_t			*grid;
+	uint64_t			grid[4];
 
+	//gridi = 0;
+	//gridd = 0;
 	d = 0;
 	i = 0;
 	if (argc == 2)
@@ -42,7 +46,11 @@ int		main(int argc, char **argv)
 			cubes_offsetter(tetriminos[i].binary_tetrimino, tetriminos[i].cubes);
 			i++;
 		}
-		printf("1");
+		zeewier(tetriminos, grid);
+	/*	while (gridi < 4)
+		{
+			while 
+		}*/
 		
 
 
@@ -62,7 +70,7 @@ int		main(int argc, char **argv)
 	}
 	else 
 		write(1, "Usage: Source File Missing", 26); // moet nog goeie omschrijving maken KIMMY YOU CAN DO THIS CauSE YOU HANDY WITH WORDS
-	grid = zeewier(tetriminos); // dit was om de syntax van zeewier te testen - Kim
+//	grid = zeewier(tetriminos); // dit was om de syntax van zeewier te testen - Kim
 	return(0);
 }
 /*
