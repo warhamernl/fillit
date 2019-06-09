@@ -5,8 +5,8 @@
 /*                                                     +:+                    */
 /*   By: kde-wint <kde-wint@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/05/27 18:01:36 by kde-wint      #+#    #+#                 */
-/*   Updated: 2019/05/27 18:01:40 by kde-wint      ########   odam.nl         */
+/*   Created: 2019/05/27 18:01:36 by kde-wint       #+#    #+#                */
+/*   Updated: 2019/06/09 11:48:29 by mlokhors      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,29 +15,27 @@
 /*
 MARK:
 Als je tijd over hebt, heb ik de volgende dingen nog nodig...
-    - functie beschreven in de "PLACEHOLDER" in can_fit
     - functie beschreven in de "PLACEHOLDER" in recursor
-    - een within_bounds functie, maar die schrijf ik denk ik liever zelf
 */
+
 
 static int      fits_entire_grid(uint64_t *grid, char **cubes) // Unfinished.
 {
-    char    i;
+    short int   i;
 
     i = 0;
     while (i < 3)
     {
-        (cubes[3][0] % 4 + cubes[i][0]) * 16 + 
-        if (cubes[3][0] % 4 + cubes[i][0] < 0)
-        {
-
-        }
+        if (cubes[4][0] % 4 + cubes[i][0] < 0)
+            if (grid[(cubes[4][0] + cubes[i][0]) % 4] &
+                1 << (63 - ((cubes[4][1] + cubes[i][1]) + (cubes[4][0] + cubes[i][0]) % 4 * 16)) != 0)
+                return (0);
         i++;
     }
-    return(-1);
+    return(1);
 }
 
-static void     grid_setter(short int size, uint64_t *grid)
+static void     grid_setter(uint64_t *grid, short int size)
 {
     int h;
     int w;
@@ -68,10 +66,9 @@ static int      can_fit(struct s_tetrimino *tetrimino, uint64_t *grid, short int
         {
             if (grid[(*tetrimino).cubes[4][0] / 4] & (*tetrimino).binary_tetrimino >>
                 ((*tetrimino).cubes[4][1] - (*tetrimino).cubes[3][1]) + ((*tetrimino).cubes[4][0] - (*tetrimino).cubes[3][0]) % 4 * 16 == 0 &&
-                    within_bounds(grid, (*tetrimino).cubes) &&
-                        fits_entire_grid(grid, (*tetrimino).cubes))
+                    fits_entire_grid(grid, (*tetrimino).cubes))
             {
-                // PLACEHOLDER: function call that actually places the tetrimino in the grid
+                place_tetri(tetrimino, grid);
                 return (1);
             }
             (*tetrimino).cubes[4][1]++;
@@ -107,7 +104,7 @@ uint64_t        *zeewier(struct s_tetrimino **tetriminos)
     while (tetriminos[size] != NULL)
         size++;
     size = ft_root(size * 4);
-    grid_setter(size, grid);
+    grid_setter(grid, size);
     while (recursor(tetriminos, 0, grid, size) == 0 && size < 26)
         size++;
     return (grid); // zijn er gevallen waar iets anders gereturned moet worden? invalid input/impossible solutions?
