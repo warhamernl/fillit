@@ -36,6 +36,51 @@ static void	test_tetri(struct s_tetrimino *tetri) // this function is here merel
 	}
 }
 
+static char identify_tetri(struct s_tetrimino *tetriminos, short int h, short int w)
+{
+	short int	i;
+
+	i = 0;
+	while (tetriminos[i].binary_tetrimino != 0)
+	{
+		if (h == tetriminos[i].cubes[4][0] + tetriminos[i].cubes[0][0] &&
+			w == tetriminos[i].cubes[4][1] + tetriminos[i].cubes[0][1])
+			return (i + 'A');
+		if (h == tetriminos[i].cubes[4][0] + tetriminos[i].cubes[1][0] &&
+			w == tetriminos[i].cubes[4][1] + tetriminos[i].cubes[1][1])
+			return (i + 'A');
+		if (h == tetriminos[i].cubes[4][0] + tetriminos[i].cubes[2][0] &&
+			w == tetriminos[i].cubes[4][1] + tetriminos[i].cubes[2][1])
+			return (i + 'A');
+		if (h == tetriminos[i].cubes[4][0] && w == tetriminos[i].cubes[4][1])
+			return (i + 'A');
+		i++;
+	}
+	return ('.'); // <- it's an itty wittle face! :3 - Mark
+}
+
+static void	print_output(uint64_t *grid, struct s_tetrimino *tetriminos, short int *size)
+{
+	short int	h;
+	short int	w;
+
+	h = 0;
+	while (h < *size)
+	{
+		w = 0;
+		while (w < *size)
+		{
+			if (grid[h % 4] & 1ull << (63 - (w + h % 4 * 16)))
+				ft_putchar(identify_tetri(tetriminos, h, w));
+			else
+				ft_putchar('.');
+			w++;
+		}
+		ft_putchar('\n');
+		h++;
+	}
+}
+
 /*
 while (gridi < 4)
 		{
@@ -63,6 +108,7 @@ int		main(int argc, char **argv)
 	int gridd;
 	struct s_tetrimino tetriminos[27];
 	uint64_t			grid[4];
+	short int	size;
 
 	gridi = 0;
 	gridd = 0;
@@ -91,14 +137,16 @@ int		main(int argc, char **argv)
 			i++;
 		}
 		test_tetri(tetriminos);
-		zeewier(tetriminos, grid);
+		zeewier(tetriminos, grid, &size);
 		gridi = 0;
+		printf("Final output:\n");
+		print_output(grid, tetriminos, &size);
 /*		while (gridi < 4)
 		{
 			gridd = 0;
 			while (gridd < 64)
 			{
-				if (grid[gridi] & 1ull << gridd)
+				if (grid[gridi] & 1ull << (63 - gridd))
 					printf("1");
 				else 
 					printf("0");
@@ -107,20 +155,6 @@ int		main(int argc, char **argv)
 				gridd++;	
 			}
 			gridi++;
-			printf("\n");
-		}
-		 opening(argv[1], tetrimino);
-		while (i < 27)
-		{
-			opening(argv[1], tetrimino);
-			printf("%llu\n", tetrimino[i]);
-			i++;
-		}
-		cubes_offsetter(tetrimino[0], cubes);
-		while (d < 4)
-		{
-			printf("height %d, weight %d", cubes[d][0], cubes[d][1]);
-			d++;
 		}*/
 	}
 	else 
