@@ -51,20 +51,20 @@ static void     grid_setter(uint64_t *grid, short int size)
     h = 0; // dit alles heeft mark gecopied van de main om grid_setter te testen
     w = 0;
     while (h < 4)
-		{
-			w = 0;
-			while (w < 64)
-			{
-				if (grid[h] & 1ull << w)
-					printf("1");
-				else 
-					printf("0");
-				if ((w + 1) % 16 == 0 && w != 0)
-					printf("\n");
-				w++;	
-			}
-			h++;
-		}
+    {
+        w = 0;
+        while (w < 64)
+        {
+            if (grid[h] & 1ull << (63 - w))
+                printf("1");
+            else 
+                printf("0");
+            if ((w + 1) % 16 == 0 && w != 0)
+                printf("\n");
+            w++;	
+        }
+        h++;
+    }
 }
 
 static int      can_fit(struct s_tetrimino *tetrimino, uint64_t *grid, short int size)
