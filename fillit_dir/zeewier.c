@@ -43,7 +43,7 @@ static void     grid_setter(uint64_t *grid, short int size)
         w = 0;
         while (w < size) // tip: deze kan ik misschien in chunks doen bij grotere speelvelden
         {
-            grid[h / 4] = ~(1ull << (63 - (w + h % 4 * 16)));
+            grid[h / 4] &= ~(1ull << (63 - (w + h % 4 * 16)));
             w++;
         }
         h++;
@@ -121,8 +121,8 @@ void        zeewier(struct s_tetrimino *tetriminos, uint64_t *grid)
 
 /*
 Aantekeningen van praatje met Emily:
-     0100 = (1 << 2)
-     1011 = ~(1 << 2)
+     0100 == (1 << 2)
+     1011 == ~(1 << 2)
 eerst kijken of A past
 zoniet, increment size
 dan plaats je A,

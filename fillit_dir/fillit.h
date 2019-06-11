@@ -18,7 +18,7 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <stdio.h> // remove
-# include "../libft/libft.h"
+# include <libft.h>
 
 struct          s_tetrimino
 {

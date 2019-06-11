@@ -14,72 +14,57 @@ NAME = fillit
 EXTRA =
 FLAGS = -Wall -Werror -Wextra $(EXTRA)
 
+CC=gcc
+
+SRC_DIR=./fillit_dir
+OBJ_DIR=./.obj
+
+OBJ_NAMES=	\
+			main \
+			reader \
+			zeewier_auxiliary \
+			zeewier \
+
+OBJS = $(patsubst %, $(OBJ_DIR)/%.o, $(OBJ_NAMES))
+SRCS = $(patsubst %, $(SRC_DIR)/%.c, $(OBJ_NAMES))
+
+LIBFT_DIR=./libft
+LIBFT_A=$(LIBFT_DIR)/libft.a
+
 all: $(NAME)
 
-$(NAME):
-	make -C libft/ && make -C libft/ clean
-	gcc $(FLAGS) -I./ -c fillit_dir/*.c
-	gcc $(FLAGS) -o $(NAME) *.o -I./  -L libft/ -lft
+$(NAME): $(OBJS) $(LIBFT_A)
+	$(CC) $(FLAGS) -o $(NAME) $(OBJS) -L./$(LIBFT_DIR) -lft
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	mkdir -p $(OBJ_DIR)
+	$(CC) -c -o $@ $< $(FLAGS) -I./$(SRC_DIR) -I./$(LIBFT_DIR)
+
+$(LIBFT_A):
+	$(MAKE) -C $(LIBFT_DIR)
 
 clean:
-	rm -f *.o
+	$(MAKE) -C $(LIBFT_DIR) clean
+	rm -rf $(OBJ_DIR)
 
 fclean: clean
-	make -C libft/ fclean
+	$(MAKE) -C $(LIBFT_DIR) fclean
 	rm -f $(NAME)
 
-re: clean
-	rm -f $(NAME)
-	make -C libft/ && make -C libft/ clean
-	gcc $(FLAGS) -I./ -c fillit_dir/*.c
-	gcc $(FLAGS) -o $(NAME) *.o -I./  -L libft/ -lft
+re:
+	$(MAKE) -j10 _re
 
-lldb:
-	make -C libft/ && make -C libft/ clean
-	gcc $(FLAGS) -g -o $(NAME) fillit_dir/*.c -I./ -L libft/ -lft
+_re: 
+	$(MAKE) fclean
+	$(MAKE) all
 
-lldbclean: clean
+lldb: 
+	$(MAKE) EXTRA=-g $(NAME)
+	lldb fillit test
 
-lldbfclean: fclean
-	rm -Rf $(NAME).dSYM
+lldbre: 
+	$(MAKE) -j10 _lldbre
 
-lldbre: clean
-	rm -f $(NAME)
-	rm -Rf $(NAME).dSYM
-	make -C libft/ && make -C libft/ clean
-	gcc $(FLAGS) -g -o $(NAME) fillit_dir/*.c -I./ -L libft/ -lft
-
-# INSERT THIS VERSION BEFORE SUBMITTING
-#
-#NAME = fillit
-#EXTRA =
-#FLAGS = -Wall -Werror -Wextra $(EXTRA)
-#
-#all: $(NAME)
-#
-#$(NAME):
-#	make -C libft/ re
-#	gcc $(FLAGS) -I./ -c fillit_dir/*.c
-#	gcc $(FLAGS) -o $(NAME) *.o -I./  -L libft/ -lft
-#
-#clean:
-#	rm -f *.o
-#	make -C libft/ clean
-#
-#fclean:
-#	rm -f *.o
-#	make -C libft/ fclean
-#	rm -f $(NAME)
-#
-#re: fclean all
-#
-#lldb:
-#	make -C libft/ fclean && make -C libft/
-#	gcc $(FLAGS) -g -o $(NAME) fillit_dir/*.c -I./ -L libft/ -lft
-#
-#lldbclean: clean
-#
-#lldbfclean: fclean
-#	rm -Rf $(NAME).dSYM
-#
-#lldbre: lldbfclean lldb
+_lldbre:
+	$(MAKE) lldbfclean
+	$(MAKE) lldb

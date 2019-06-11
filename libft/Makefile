@@ -97,4 +97,6 @@ clean:
 fclean: clean
 	rm -f $(NAME)
 
-re: fclean all
+re: 
+	$(MAKE) fclean
+	$(MAKE) all
