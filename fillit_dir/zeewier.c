@@ -12,12 +12,6 @@
 
 #include "fillit.h"
 
-/*
-MARK:
-Als je tijd over hebt, heb ik de volgende dingen nog nodig...
-    - functie beschreven in de "PLACEHOLDER" in recursor 
-*/
-
 static int      fits_entire_grid(uint64_t *grid, short int cubes[5][2])
 {
     short int   i;
@@ -36,8 +30,8 @@ static int      fits_entire_grid(uint64_t *grid, short int cubes[5][2])
 
 static void     grid_setter(uint64_t *grid, short int size)
 {
-    int h;
-    int w;
+    short int h;
+    short int w;
 
     h = 0;
     grid[0] = 9223372036854775807LL * 2ULL + 1ULL;
@@ -49,7 +43,7 @@ static void     grid_setter(uint64_t *grid, short int size)
         w = 0;
         while (w < size) // tip: deze kan ik misschien in chunks doen bij grotere speelvelden
         {
-            grid[h / 4] = ~(1 << (63 - (w + h % 4 * 16)));
+            grid[h / 4] = ~(1ull << (63 - (w + h % 4 * 16)));
             w++;
         }
         h++;
@@ -70,7 +64,6 @@ static void     grid_setter(uint64_t *grid, short int size)
 				w++;	
 			}
 			h++;
-			printf("\n");
 		}
 }
 

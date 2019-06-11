@@ -18,31 +18,68 @@ all: $(NAME)
 
 $(NAME):
 	make -C libft/ && make -C libft/ clean
-	gcc $(FLAGS) -c fillit_dir/*.c
-	gcc $(FLAGS) *.o -L libft/ -lft
-#this needs to compile to executable "fillit" before submission
+	gcc $(FLAGS) -I./ -c fillit_dir/*.c
+	gcc $(FLAGS) -o $(NAME) *.o -I./  -L libft/ -lft
 
 clean:
 	rm -f *.o
-	rm a.out
 
 fclean: clean
 	make -C libft/ fclean
-#this needs to changed to the standard functioning before submission
+	rm -f $(NAME)
 
-re: clean all
+re: clean
+	rm -f $(NAME)
+	make -C libft/ && make -C libft/ clean
+	gcc $(FLAGS) -I./ -c fillit_dir/*.c
+	gcc $(FLAGS) -o $(NAME) *.o -I./  -L libft/ -lft
 
 lldb:
 	make -C libft/ && make -C libft/ clean
-	gcc $(FLAGS) -g fillit_dir/*.c -L libft/ -lft
+	gcc $(FLAGS) -g -o $(NAME) fillit_dir/*.c -I./ -L libft/ -lft
 
-lldbclean:
-	rm -Rf a.out.dSYM
-	rm a.out
+lldbclean: clean
 
-lldbfclean:
-	make -C libft/ fclean
-	rm -Rf a.out.dSYM
-	rm a.out
+lldbfclean: fclean
+	rm -Rf $(NAME).dSYM
 
-lldbre: lldbclean lldb
+lldbre: clean
+	rm -f $(NAME)
+	rm -Rf $(NAME).dSYM
+	make -C libft/ && make -C libft/ clean
+	gcc $(FLAGS) -g -o $(NAME) fillit_dir/*.c -I./ -L libft/ -lft
+
+# INSERT THIS VERSION BEFORE SUBMITTING
+#
+#NAME = fillit
+#EXTRA =
+#FLAGS = -Wall -Werror -Wextra $(EXTRA)
+#
+#all: $(NAME)
+#
+#$(NAME):
+#	make -C libft/ re
+#	gcc $(FLAGS) -I./ -c fillit_dir/*.c
+#	gcc $(FLAGS) -o $(NAME) *.o -I./  -L libft/ -lft
+#
+#clean:
+#	rm -f *.o
+#	make -C libft/ clean
+#
+#fclean:
+#	rm -f *.o
+#	make -C libft/ fclean
+#	rm -f $(NAME)
+#
+#re: fclean all
+#
+#lldb:
+#	make -C libft/ fclean && make -C libft/
+#	gcc $(FLAGS) -g -o $(NAME) fillit_dir/*.c -I./ -L libft/ -lft
+#
+#lldbclean: clean
+#
+#lldbfclean: fclean
+#	rm -Rf $(NAME).dSYM
+#
+#lldbre: lldbfclean lldb

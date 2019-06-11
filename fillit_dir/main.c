@@ -12,7 +12,7 @@
 
 #include "fillit.h"
 
-static void	test_tetri(struct s_tetrimino *tetri)
+static void	test_tetri(struct s_tetrimino *tetri) // this function is here merely to test if the tetrimino-struct array is correctly made, remove this function before submitting
 {
 	int	i;
 	int i2;
@@ -21,7 +21,7 @@ static void	test_tetri(struct s_tetrimino *tetri)
 	while (tetri[i2].binary_tetrimino != (uint64_t)0)
 	{
 		i = -1;
-		printf("tetrimino %d has value: %llu\n", i + 1, tetri[i2].binary_tetrimino);
+		printf("tetrimino %c has value: %llu\n", i2 + 'A', tetri[i2].binary_tetrimino);
 		while (i++ < 63)
 		{
 			if (tetri[i2].binary_tetrimino & (uint64_t)1 << (63 - i))
@@ -31,7 +31,7 @@ static void	test_tetri(struct s_tetrimino *tetri)
 			if ((i + 1) % 16 == 0 && i != 0)
 				printf("\n");
 		}
-		printf("   h  w\n0  %d  %d  <- offset block 1\n1  %d  %d  <- offset block 2\n2  %d  %d  <- offset block 3\n3  %d  %d  <- this is the position of block 4(the downmost, rightmost cube)\n4  %d  %d  <- this is a walker\n\n", tetri[i2].cubes[0][0], tetri[i2].cubes[0][1], tetri[i2].cubes[1][0], tetri[i2].cubes[1][1], tetri[i2].cubes[2][0], tetri[i2].cubes[2][1], tetri[i2].cubes[3][0], tetri[i2].cubes[3][1], tetri[i2].cubes[4][0], tetri[i2].cubes[4][1]);
+		printf("   h   w\n0  %d  %d  <- offset block 1\n1  %d  %d  <- offset block 2\n2  %d  %d  <- offset block 3\n3  %d  %d  <- this is the position of block 4(the downmost, rightmost cube)\n4  %d  %d  <- this is the 'walker'\n\n", tetri[i2].cubes[0][0], tetri[i2].cubes[0][1], tetri[i2].cubes[1][0], tetri[i2].cubes[1][1], tetri[i2].cubes[2][0], tetri[i2].cubes[2][1], tetri[i2].cubes[3][0], tetri[i2].cubes[3][1], tetri[i2].cubes[4][0], tetri[i2].cubes[4][1]);
 		i2++;
 	}
 }
@@ -93,7 +93,7 @@ int		main(int argc, char **argv)
 		test_tetri(tetriminos);
 		zeewier(tetriminos, grid);
 		gridi = 0;
-		while (gridi < 4)
+/*		while (gridi < 4)
 		{
 			gridd = 0;
 			while (gridd < 64)
@@ -109,11 +109,8 @@ int		main(int argc, char **argv)
 			gridi++;
 			printf("\n");
 		}
-		
-
-
-//		 opening(argv[1], tetrimino);
-		/*while (i < 27)
+		 opening(argv[1], tetrimino);
+		while (i < 27)
 		{
 			opening(argv[1], tetrimino);
 			printf("%llu\n", tetrimino[i]);
