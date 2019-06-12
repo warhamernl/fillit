@@ -15,13 +15,13 @@
 static int      fits_entire_grid(uint64_t *grid, short int cubes[5][2])
 {
     short int   i;
-
+    
     i = 0;
     while (i < 3)
     {
         if (cubes[4][0] % 4 + cubes[i][0] < 0)
             if ((grid[(cubes[4][0] + cubes[i][0]) % 4] &
-                1 << (63 - ((cubes[4][1] + cubes[i][1]) + (cubes[4][0] + cubes[i][0]) % 4 * 16))) != 0)
+                1 << (63 - ((cubes[4][1] + cubes[i][1]) + (cubes[4][0] + (cubes[i][0] % 4 * 16))))) != 0)
                 return (0);
         i++;
     }
@@ -48,6 +48,7 @@ static void     grid_setter(uint64_t *grid, short int *size)
         }
         h++;
     }
+
 }
 
 static int      can_fit(struct s_tetrimino *tetrimino, uint64_t *grid, short int *size)
@@ -58,9 +59,8 @@ static int      can_fit(struct s_tetrimino *tetrimino, uint64_t *grid, short int
         (*tetrimino).cubes[4][1] = (*tetrimino).cubes[3][1];
         while ((*tetrimino).cubes[4][1] < *size)
         {
-            if ((grid[(*tetrimino).cubes[4][0] / 4] & (*tetrimino).binary_tetrimino >>
-                (((*tetrimino).cubes[4][1] - (*tetrimino).cubes[3][1]) + ((*tetrimino).cubes[4][0] - (*tetrimino).cubes[3][0]) % 4 * 16)) == 0 &&
-                    fits_entire_grid(grid, (*tetrimino).cubes))
+            if ((grid[(*tetrimino).cubes[4][0] / 4] & (*tetrimino).binary_tetrimino >> (((*tetrimino).cubes[4][1] - (*tetrimino).cubes[3][1]) + ((*tetrimino).cubes[4][0] + (*tetrimino).cubes[3][0]) % 4 * 16)) == 0 &&
+                    fits_entire_grid(grid, (*tetrimino).cubes) == 1)
             {
                 place_tetri(tetrimino, grid);
                 return (1);
@@ -97,7 +97,10 @@ void        zeewier(struct s_tetrimino *tetriminos, uint64_t *grid, short int *s
     *size = (short int)ft_sqrt(*size * 4);
     grid_setter(grid, size);
     while (recursor(tetriminos, 0, grid, size) == 0 && *size < 26)
+    {
         (*size)++;
+        grid_setter(grid, size);
+    }
 }
 
 /*
