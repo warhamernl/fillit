@@ -18,6 +18,7 @@ void	remove_tetri(struct s_tetrimino *tetriminos, short int i, uint64_t *grid)
             grid[(tetriminos[i].cubes[4][0] + tetriminos[i].cubes[0][0]) / 4] = ~(1 << (63 - ((tetriminos[i].cubes[0][1] + tetriminos[i].cubes[0][0]) % 4 * 16)));
             grid[(tetriminos[i].cubes[4][0] + tetriminos[i].cubes[1][0]) / 4] = ~(1 << (63 - ((tetriminos[i].cubes[1][1] + tetriminos[i].cubes[1][0]) % 4 * 16)));
             grid[(tetriminos[i].cubes[4][0] + tetriminos[i].cubes[2][0]) / 4] = ~(1 << (63 - ((tetriminos[i].cubes[2][1] + tetriminos[i].cubes[2][0]) % 4 * 16)));*/
+// deze is denk ik beter denk ik.
 	grid[(tetriminos[i]).cubes[4][0] / 4] |= 1 << (63 - ((tetriminos[i]).cubes[4][1] + (tetriminos[i]).cubes[4][0] % 4 * 16));
 	grid[((tetriminos[i]).cubes[4][0] + (tetriminos[i]).cubes[0][0])/ 4] |= 1 << ~(63 - (((tetriminos[i]).cubes[4][1] + (tetriminos[i]).cubes[0][1] ) + (((tetriminos[i]).cubes[4][0] + (tetriminos[i]).cubes[0][0]) % 4 * 16)));
 	grid[((tetriminos[i]).cubes[4][0] + (tetriminos[i]).cubes[1][0])/ 4] |= 1 << ~(63 - (((tetriminos[i]).cubes[4][1] + (tetriminos[i]).cubes[1][1] ) + (((tetriminos[i]).cubes[4][0] + (tetriminos[i]).cubes[1][0]) % 4 * 16)));
