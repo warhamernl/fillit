@@ -41,7 +41,7 @@ static void     grid_setter(uint64_t *grid, short int *size)
     while (h < *size)
     {
         w = 0;
-        while (w < *size) // tip: deze kan ik misschien in chunks doen bij grotere speelvelden
+        while (w < *size)
         {
             grid[h / 4] &= ~(1ull << (63 - (w + h % 4 * 16)));
             w++;
@@ -59,8 +59,8 @@ static int      can_fit(struct s_tetrimino *tetrimino, uint64_t *grid, short int
         (*tetrimino).cubes[4][1] = (*tetrimino).cubes[3][1];
         while ((*tetrimino).cubes[4][1] < *size)
         {
-            if ((grid[(*tetrimino).cubes[4][0] / 4] & (*tetrimino).binary_tetrimino >> (((*tetrimino).cubes[4][1] - (*tetrimino).cubes[3][1]) + ((*tetrimino).cubes[4][0] + (*tetrimino).cubes[3][0]) % 4 * 16)) == 0 &&
-                    fits_entire_grid(grid, (*tetrimino).cubes) == 1)
+            if ((grid[(*tetrimino).cubes[4][0] / 4] & (*tetrimino).binary_tetrimino >> ((*tetrimino).cubes[4][1] - (*tetrimino).cubes[3][1] + (((*tetrimino).cubes[4][0] - (*tetrimino).cubes[3][0]) % 4 * 16))) == 0 &&
+                    fits_entire_grid(grid, (*tetrimino).cubes))
             {
                 place_tetri(tetrimino, grid);
                 return (1);
@@ -72,7 +72,7 @@ static int      can_fit(struct s_tetrimino *tetrimino, uint64_t *grid, short int
     return (0);
 }
 
-static char  recursor(struct s_tetrimino *tetriminos, short int i, uint64_t *grid, short int *size)
+static int    recursor(struct s_tetrimino *tetriminos, short int i, uint64_t *grid, short int *size)
 {
     if (tetriminos[i].binary_tetrimino == 0)
         return (1);

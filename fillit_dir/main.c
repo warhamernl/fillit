@@ -56,7 +56,7 @@ static char identify_tetri(struct s_tetrimino *tetriminos, short int h, short in
 			return (i + 'A');
 		i++;
 	}
-	return ('.'); // <- it's an itty wittle face! :3 - Mark
+	return ('1'); // <- it's an itty wittle face! :3 - Mark
 }
 
 static void	print_output(uint64_t *grid, struct s_tetrimino *tetriminos, short int *size)
@@ -65,12 +65,13 @@ static void	print_output(uint64_t *grid, struct s_tetrimino *tetriminos, short i
 	short int	w;
 
 	h = 0;
+	*size = 26; // dit staat hier slechts om compile-error te voorkomen.
 	while (h < *size)
 	{
 		w = 0;
 		while (w < *size)
 		{
-			if (grid[h % 4] & 1ull << (63 - (w + h % 4 * 16)))
+			if (grid[h / 4] & 1ull << (63 - (w + h % 4 * 16)))
 				ft_putchar(identify_tetri(tetriminos, h, w));
 			else
 				ft_putchar('.');

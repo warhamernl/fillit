@@ -66,5 +66,5 @@ lldbre:
 	$(MAKE) -j10 _lldbre
 
 _lldbre:
-	$(MAKE) lldbfclean
+	$(MAKE) fclean
 	$(MAKE) lldb
