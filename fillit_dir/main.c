@@ -12,30 +12,6 @@
 
 #include "fillit.h"
 
-static void	test_tetri(struct s_tetrimino *tetri) // this function is here merely to test if the tetrimino-struct array is correctly made, remove this function before submitting
-{
-	int	i;
-	int i2;
-
-	i2 = 0;
-	while (tetri[i2].binary_tetrimino != (uint64_t)0)
-	{
-		i = -1;
-		printf("tetrimino %c has value: %llu\n", i2 + 'A', tetri[i2].binary_tetrimino);
-		while (i++ < 63)
-		{
-			if (tetri[i2].binary_tetrimino & (uint64_t)1 << (63 - i))
-				printf("1");
-			else
-				printf("0");
-			if ((i + 1) % 16 == 0 && i != 0)
-				printf("\n");
-		}
-		printf("   h   w\n0  %d  %d  <- offset block 1\n1  %d  %d  <- offset block 2\n2  %d  %d  <- offset block 3\n3  %d  %d  <- this is the position of block 4(the downmost, rightmost cube)\n4  %d  %d  <- this is the 'walker'\n\n", tetri[i2].cubes[0][0], tetri[i2].cubes[0][1], tetri[i2].cubes[1][0], tetri[i2].cubes[1][1], tetri[i2].cubes[2][0], tetri[i2].cubes[2][1], tetri[i2].cubes[3][0], tetri[i2].cubes[3][1], tetri[i2].cubes[4][0], tetri[i2].cubes[4][1]);
-		i2++;
-	}
-}
-
 static char identify_tetri(struct s_tetrimino *tetriminos, short int h, short int w)
 {
 	short int	i;
@@ -56,7 +32,7 @@ static char identify_tetri(struct s_tetrimino *tetriminos, short int h, short in
 			return (i + 'A');
 		i++;
 	}
-	return ('.'); // <- it's an itty wittle face! :3 - Mark
+	return ('.');
 }
 
 void	print_output(uint64_t *grid, struct s_tetrimino *tetriminos, short int *size) // maak dit static voor submission
@@ -79,26 +55,7 @@ void	print_output(uint64_t *grid, struct s_tetrimino *tetriminos, short int *siz
 		ft_putchar('\n');
 		h++;
 	}
-	printf("\n"); // remove
 }
-
-/*
-while (gridi < 4)
-		{
-			gridd = 0;
-			while (gridd < 63)
-			{
-				if (grid[gridi] & 1 << i)
-					printf("1");
-				else 
-					printf("0");
-				if ((i + 1) % 16 == 0)
-					printf("\n");
-				gridd++;	
-			}
-			gridi++;
-		}
-*/
 
 int		main(int argc, char **argv)
 {
@@ -140,33 +97,9 @@ int		main(int argc, char **argv)
 		test_tetri(tetriminos);
 		zeewier(tetriminos, grid, &size);
 		gridi = 0;
-		printf("Final output:\n");
 		print_output(grid, tetriminos, &size);
-/*		while (gridi < 4)
-		{
-			gridd = 0;
-			while (gridd < 64)
-			{
-				if (grid[gridi] & 1ull << (63 - gridd))
-					printf("1");
-				else 
-					printf("0");
-				if ((gridd + 1) % 16 == 0 && gridd != 0)
-					printf("\n");
-				gridd++;	
-			}
-			gridi++;
-		}*/
 	}
 	else 
-		write(1, "Usage: Source File Missing", 26); // moet nog goeie omschrijving maken KIMMY YOU CAN DO THIS CauSE YOU HANDY WITH WORDS
-//	grid = zeewier(tetriminos); // dit was om de syntax van zeewier te testen - Kim
+		write(1, "Usage: Source File Missing", 26);
 	return(0);
 }
-/*
-struct s_tetrimino	tetriminos[26];
-
-tetriminos[0].cubes[3][0] = 1;
-of
-(tetriminos[0]).cubes[3][0] = 1;
-*/

@@ -12,12 +12,11 @@
 
 #ifndef FILLIT_H
 # define FILLIT_H
-// zijn defines voor CONTINUE ofzo een idee?
+/* zijn defines voor CONTINUE ofzo een idee?*/
 
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
-# include <stdio.h> // remove
 # include <libft.h>
 
 struct          s_tetrimino
@@ -31,7 +30,6 @@ void            cubes_offsetter(uint64_t tetrimino, short int cubes[5][2]);
 void            place_tetri(struct s_tetrimino *tetrimino, uint64_t *grid);
 void	        remove_tetri(struct s_tetrimino *tetriminos, short int i, uint64_t *grid);
 void            zeewier(struct s_tetrimino *tetriminos, uint64_t *grid, short int *size);
-//void    	    print_output(uint64_t *grid, struct s_tetrimino *tetriminos, short int *size); // maak dit static voor submission
 
 #endif
 
@@ -40,4 +38,3 @@ void            zeewier(struct s_tetrimino *tetriminos, uint64_t *grid, short in
     - forbidden functions
     - the norm extensively(with norm-PDF)
 */
-// void print_binary(unsigned short int number); // remove before turning in
