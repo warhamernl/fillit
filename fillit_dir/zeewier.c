@@ -12,6 +12,32 @@
 
 #include "fillit.h"
 
+static void     print_grid(uint64_t *grid)
+{
+    int h;
+    int w;
+
+    h = 0; // dit alles heeft mark gecopied van de main om grid_setter te testen
+    w = 0;
+    printf("grid now looks like this:\n"); // remove
+    while (h < 4)
+    {
+        w = 0;
+        while (w < 64)
+        {
+            if (grid[h] & 1ull << (63 - w))
+                printf("1");
+            else 
+                printf("0");
+            if ((w + 1) % 16 == 0 && w != 0)
+                printf("\n");
+            w++;	
+        }
+        h++;
+    }
+    printf("\n");
+}
+
 static int      fits_entire_grid(uint64_t *grid, short int cubes[5][2])
 {
     short int   i;
@@ -20,8 +46,8 @@ static int      fits_entire_grid(uint64_t *grid, short int cubes[5][2])
     while (i < 3)
     {
         if (cubes[4][0] % 4 + cubes[i][0] < 0)
-            if ((grid[(cubes[4][0] + cubes[i][0]) % 4] &
-                1 << (63 - ((cubes[4][1] + cubes[i][1]) + (cubes[4][0] + (cubes[i][0] % 4 * 16))))) != 0)
+            if ((grid[(cubes[4][0] + cubes[i][0]) / 4] &
+                1ull << (63 - ((cubes[4][1] + cubes[i][1]) + ((cubes[4][0] + cubes[i][0]) % 4 * 16)))) != 0)
                 return (0);
         i++;
     }
@@ -48,7 +74,27 @@ static void     grid_setter(uint64_t *grid, short int *size)
         }
         h++;
     }
-
+    // alles hieronder deleten
+    h = 0; // dit alles heeft mark gecopied van de main om grid_setter te testen
+    w = 0;
+    printf("grid_setter has created the following grid:\n"); // remove
+    while (h < 4)
+    {
+        w = 0;
+        while (w < 64)
+        {
+            if (grid[h] & 1ull << (63 - w))
+                printf("1");
+            else 
+                printf("0");
+            if ((w + 1) % 16 == 0 && w != 0)
+                printf("\n");
+            w++;	
+        }
+        h++;
+    }
+    printf("\n");
+    // alles hierboven deleten
 }
 
 static int      can_fit(struct s_tetrimino *tetrimino, uint64_t *grid, short int *size)
@@ -63,6 +109,7 @@ static int      can_fit(struct s_tetrimino *tetrimino, uint64_t *grid, short int
                     fits_entire_grid(grid, (*tetrimino).cubes))
             {
                 place_tetri(tetrimino, grid);
+                print_grid(grid); //remove
                 return (1);
             }
             (*tetrimino).cubes[4][1]++;
@@ -83,6 +130,7 @@ static int    recursor(struct s_tetrimino *tetriminos, short int i, uint64_t *gr
         else
         {
             remove_tetri(tetriminos, i, grid);
+            print_grid(grid); // remove
             return (0);
         }
     }
@@ -96,10 +144,10 @@ void        zeewier(struct s_tetrimino *tetriminos, uint64_t *grid, short int *s
         (*size)++;
     *size = (short int)ft_sqrt(*size * 4);
     grid_setter(grid, size);
-    while (recursor(tetriminos, 0, grid, size) == 0 && *size < 26)
+    while (recursor(tetriminos, 0, grid, size) == 0 && *size <= 16)
     {
         (*size)++;
-        grid_setter(grid, size);
+        grid_setter(grid, size); // het lijkt alsof ie nooit een 16x16 maakt?
     }
 }
 

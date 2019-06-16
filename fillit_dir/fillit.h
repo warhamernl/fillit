@@ -31,6 +31,7 @@ void            cubes_offsetter(uint64_t tetrimino, short int cubes[5][2]);
 void            place_tetri(struct s_tetrimino *tetrimino, uint64_t *grid);
 void	        remove_tetri(struct s_tetrimino *tetriminos, short int i, uint64_t *grid);
 void            zeewier(struct s_tetrimino *tetriminos, uint64_t *grid, short int *size);
+//void    	    print_output(uint64_t *grid, struct s_tetrimino *tetriminos, short int *size); // maak dit static voor submission
 
 #endif
 
