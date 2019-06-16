@@ -189,7 +189,7 @@ static uint64_t		lezen(int fd)
 	checki = check(cache);
 	if (checki == -1)
 	{
-		printf("error in lezen");
+		printf("error in lezen");// geen printf pls
 		exit(-1);
 	}
 	tetro = convert(cache);
@@ -214,7 +214,7 @@ void	opening(char *str, struct s_tetrimino tetriminos[27])
 		tetriminos[i].binary_tetrimino = lezen(fd);
 		if (i == 26)
 		{
-			printf("Error 26 tetro bereikt");
+			printf("Error 26 tetro bereikt"); // geen printf pls
 			exit(-1);
 		}
 		if (tetriminos[i].binary_tetrimino == 0)

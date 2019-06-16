@@ -18,6 +18,7 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <libft.h>
+# include <stdio.h> // remove before submission
 
 struct          s_tetrimino
 {

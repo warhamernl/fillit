@@ -94,7 +94,6 @@ int		main(int argc, char **argv)
 			cubes_offsetter(tetriminos[i].binary_tetrimino, tetriminos[i].cubes);
 			i++;
 		}
-		test_tetri(tetriminos);
 		zeewier(tetriminos, grid, &size);
 		gridi = 0;
 		print_output(grid, tetriminos, &size);
