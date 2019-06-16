@@ -105,8 +105,10 @@ static int      can_fit(struct s_tetrimino *tetrimino, uint64_t *grid, short int
         (*tetrimino).cubes[4][1] = (*tetrimino).cubes[3][1];
         while ((*tetrimino).cubes[4][1] < *size)
         {
-            if ((grid[(*tetrimino).cubes[4][0] / 4] & (*tetrimino).binary_tetrimino >> ((*tetrimino).cubes[4][1] - (*tetrimino).cubes[3][1] + (((*tetrimino).cubes[4][0] - (*tetrimino).cubes[3][0]) % 4 * 16))) == 0 &&
-                    fits_entire_grid(grid, (*tetrimino).cubes))
+        //    if ((*tetrimino).cubes[4][0] % 4 < (*tetrimino).cubes[3][0] && 
+            if ((((*tetrimino).cubes[4][0] % 4 >= (*tetrimino).cubes[3][0] && (grid[(*tetrimino).cubes[4][0] / 4] & (*tetrimino).binary_tetrimino >> ((*tetrimino).cubes[4][1] - (*tetrimino).cubes[3][1] + (((*tetrimino).cubes[4][0] - (*tetrimino).cubes[3][0]) % 4 * 16))) == 0) ||
+                ((*tetrimino).cubes[4][0] % 4 < (*tetrimino).cubes[3][0] && (grid[(*tetrimino).cubes[4][0] / 4] & (*tetrimino).binary_tetrimino << (((*tetrimino).cubes[3][0] - (*tetrimino).cubes[4][0] % 4) * 16 - ((*tetrimino).cubes[4][1] - (*tetrimino).cubes[3][1]))) == 0)) &&
+                fits_entire_grid(grid, (*tetrimino).cubes))
             {
                 place_tetri(tetrimino, grid);
                 print_grid(grid); //remove

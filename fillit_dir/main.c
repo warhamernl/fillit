@@ -56,7 +56,7 @@ static char identify_tetri(struct s_tetrimino *tetriminos, short int h, short in
 			return (i + 'A');
 		i++;
 	}
-	return ('1'); // <- it's an itty wittle face! :3 - Mark
+	return ('.'); // <- it's an itty wittle face! :3 - Mark
 }
 
 void	print_output(uint64_t *grid, struct s_tetrimino *tetriminos, short int *size) // maak dit static voor submission
@@ -65,7 +65,6 @@ void	print_output(uint64_t *grid, struct s_tetrimino *tetriminos, short int *siz
 	short int	w;
 
 	h = 0;
-	*size = 16; // dit staat hier slechts om compile-error te voorkomen.
 	while (h < *size)
 	{
 		w = 0;
