@@ -11,7 +11,14 @@
 /* ************************************************************************** */
 
 #include "fillit.h"
-
+static void total_read(int i, int bytes_read)
+{
+	if (bytes_read != ((i * 21) - 1))
+	{
+		write(1, "error\n", 6);
+		exit(-1);
+	}
+}
 
 static void	tetromove(int check, int *bracket, uint64_t *tetro)
 {
@@ -123,9 +130,9 @@ static uint64_t	convert(char *str)
 		}
 		i++;
 	}
-	if (nl != 5 && i == 21)
+	if ((nl != 5 && i == 21) || (nl != 4 && i == 20))
 	{
-		printf("error in convert");
+		write(1, "error\n", 6);
 		exit(-1);
 	}
 	return (shift(tetro));
@@ -175,7 +182,7 @@ static int		check(char *str)
 }
 
 
-static uint64_t		lezen(int fd)
+static uint64_t		lezen(int fd, int *bytes_read)
 {
 	uint64_t	tetro;
 	char 		*cache;
@@ -183,13 +190,13 @@ static uint64_t		lezen(int fd)
 
 	tetro = 0;
 	cache = ft_strnew(21);
-	read(fd, cache, 21);
+	*bytes_read += read(fd, cache, 21);
 	if (cache[0] == '\0')
 		return (0);
 	checki = check(cache);
 	if (checki == -1)
 	{
-		printf("error in lezen");// geen printf pls
+		write(1, "error", 6);// geen printf pls
 		exit(-1);
 	}
 	tetro = convert(cache);
@@ -197,29 +204,27 @@ static uint64_t		lezen(int fd)
 	return (tetro);
 }
 
-void	opening(char *str, struct s_tetrimino tetriminos[27])
+int		opening(char *str, struct s_tetrimino tetriminos[27])
 {
 	int			fd;
 	int			i;
+	int			bytes_read;
 
+	bytes_read = 0;
 	i = 0;
 	fd = open(str, O_RDONLY);
 	if (fd == -1)
-	{
-		write(1, "Error opining", 6);
-		exit(-1);
-	}
+		return (-1);
 	while (tetriminos[i].binary_tetrimino == 0)
 	{
-		tetriminos[i].binary_tetrimino = lezen(fd);
+		tetriminos[i].binary_tetrimino = lezen(fd, &bytes_read);
 		if (i == 26)
-		{
-			printf("Error 26 tetro bereikt"); // geen printf pls
-			exit(-1);
-		}
+			return(-1);
 		if (tetriminos[i].binary_tetrimino == 0)
 			break;
 		i++;	
 	}
 	close(fd);
+	total_read(i, bytes_read);
+	return(0);
 }

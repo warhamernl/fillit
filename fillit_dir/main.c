@@ -62,12 +62,14 @@ int		main(int argc, char **argv)
 	int i;
 	int d;
 	int	x;
+	int openiningcheck;
 	int gridi;
 	int gridd;
 	struct s_tetrimino tetriminos[27];
 	uint64_t			grid[4];
 	short int	size;
 
+	openiningcheck = 0;
 	gridi = 0;
 	gridd = 0;
 	d = 0;
@@ -88,7 +90,11 @@ int		main(int argc, char **argv)
 			i++;
 		}
 		i = 0;
-		opening(argv[1], tetriminos);
+		if (opening(argv[1], tetriminos) == -1)
+		{
+			write (1, "error", 6);
+			return (-1);
+		}
 		while (i < 26)
 		{
 			cubes_offsetter(tetriminos[i].binary_tetrimino, tetriminos[i].cubes);
