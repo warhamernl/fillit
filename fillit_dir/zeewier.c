@@ -72,7 +72,7 @@ static int      can_fit(struct s_tetrimino *tetrimino, uint64_t *grid, short int
                 
                 fits_entire_grid(grid, (*tetrimino).cubes))
             {
-                place_tetri(tetrimino, grid);
+                place_tetri(tetrimino, grid); // MARK: verplaats deze naar recursor pls
                 return (1);
             }
             (*tetrimino).cubes[4][1]++;
@@ -90,6 +90,7 @@ static int    recursor(struct s_tetrimino *tetriminos, short int i, uint64_t *gr
         return (0); // doodlopende weg
     if (can_fit(&tetriminos[i], grid, size))
     {
+        // MARK: plaats hier place_tetri
         if (recursor(tetriminos, first_unplaced(tetriminos, i), grid, size))
             return (1);
         else

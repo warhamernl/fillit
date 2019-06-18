@@ -21,6 +21,8 @@ void	remove_tetri(struct s_tetrimino *tetriminos, short int i, uint64_t *grid)
 	tetriminos[i].placed = (short int)0;
 }
 
+// MARK: kun je zorgen dat remove_tetri slechts een tetrimino mee krijgt en geen i gebruikt?
+
 void     place_tetri(struct s_tetrimino *tetrimino, uint64_t *grid)
 {
 	grid[(*tetrimino).cubes[4][0] / 4] |= 1ull << (63 - ((*tetrimino).cubes[4][1] + (*tetrimino).cubes[4][0] % 4 * 16));
