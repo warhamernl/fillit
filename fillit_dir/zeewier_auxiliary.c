@@ -18,6 +18,7 @@ void	remove_tetri(struct s_tetrimino *tetriminos, short int i, uint64_t *grid)
 	grid[(tetriminos[i].cubes[4][0] + tetriminos[i].cubes[0][0])/ 4] ^= 1ull << (63 - (tetriminos[i].cubes[4][1] + tetriminos[i].cubes[0][1] + ((tetriminos[i].cubes[4][0] + tetriminos[i].cubes[0][0]) % 4 * 16)));
 	grid[(tetriminos[i].cubes[4][0] + tetriminos[i].cubes[1][0])/ 4] ^= 1ull << (63 - (tetriminos[i].cubes[4][1] + tetriminos[i].cubes[1][1] + ((tetriminos[i].cubes[4][0] + tetriminos[i].cubes[1][0]) % 4 * 16)));
 	grid[(tetriminos[i].cubes[4][0] + tetriminos[i].cubes[2][0])/ 4] ^= 1ull << (63 - (tetriminos[i].cubes[4][1] + tetriminos[i].cubes[2][1] + ((tetriminos[i].cubes[4][0] + tetriminos[i].cubes[2][0]) % 4 * 16)));
+	tetriminos[i].placed = (short int)0;
 }
 
 void     place_tetri(struct s_tetrimino *tetrimino, uint64_t *grid)
@@ -26,6 +27,7 @@ void     place_tetri(struct s_tetrimino *tetrimino, uint64_t *grid)
 	grid[((*tetrimino).cubes[4][0] + (*tetrimino).cubes[0][0])/ 4] |= 1ull << (63 - (((*tetrimino).cubes[4][1] + (*tetrimino).cubes[0][1] ) + (((*tetrimino).cubes[4][0] + (*tetrimino).cubes[0][0]) % 4 * 16)));
 	grid[((*tetrimino).cubes[4][0] + (*tetrimino).cubes[1][0])/ 4] |= 1ull << (63 - (((*tetrimino).cubes[4][1] + (*tetrimino).cubes[1][1] ) + (((*tetrimino).cubes[4][0] + (*tetrimino).cubes[1][0]) % 4 * 16)));
 	grid[((*tetrimino).cubes[4][0] + (*tetrimino).cubes[2][0])/ 4] |= 1ull << (63 - (((*tetrimino).cubes[4][1] + (*tetrimino).cubes[2][1] ) + (((*tetrimino).cubes[4][0] + (*tetrimino).cubes[2][0]) % 4 * 16)));
+	(*tetrimino).placed = (short int)1;
 }
 
 void  cubes_offsetter(uint64_t tetrimino, short int cubes[5][2])

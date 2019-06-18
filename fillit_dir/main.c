@@ -98,6 +98,7 @@ int		main(int argc, char **argv)
 		while (i < 26)
 		{
 			cubes_offsetter(tetriminos[i].binary_tetrimino, tetriminos[i].cubes);
+			tetriminos[i].placed = (short int)0;
 			i++;
 		}
 		zeewier(tetriminos, grid, &size);

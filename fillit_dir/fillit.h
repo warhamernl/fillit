@@ -24,6 +24,7 @@ struct          s_tetrimino
 {
     uint64_t    binary_tetrimino;
     short int   cubes[5][2];
+    short int   placed; // this will track whether the tetrimino is currently in the grid
 };
 
 int            opening(char *str, struct s_tetrimino tetriminos[27]);
