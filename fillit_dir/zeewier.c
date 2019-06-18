@@ -84,11 +84,13 @@ static int      can_fit(struct s_tetrimino *tetrimino, uint64_t *grid, short int
 
 static int    recursor(struct s_tetrimino *tetriminos, short int i, uint64_t *grid, short int *size)
 {
-    if (tetriminos[i].binary_tetrimino == 0)
-        return (1);
+    if (i == 27)
+        return (1); // klaar
+    if (i == 26)
+        return (0); // doodlopende weg
     if (can_fit(&tetriminos[i], grid, size))
     {
-        if (recursor(tetriminos, i + 1, grid, size))
+        if (recursor(tetriminos, first_unplaced(tetriminos, i), grid, size))
             return (1);
         else
         {
@@ -96,7 +98,7 @@ static int    recursor(struct s_tetrimino *tetriminos, short int i, uint64_t *gr
             return (0);
         }
     }
-    return (0);
+    return (recursor(tetriminos, next_unplaced(tetriminos, i), grid, size));
 }
 
 void        zeewier(struct s_tetrimino *tetriminos, uint64_t *grid, short int *size)
