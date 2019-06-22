@@ -111,7 +111,6 @@ void        zeewier(struct s_tetrimino *tetriminos, uint64_t *grid, short int *s
     *size = 0;
     while (tetriminos[*size].binary_tetrimino != 0)
         (*size)++;
-//    tetriminos[27].placed = *size; // experimental, this will keep track of how many tetriminos there are
     *size = (short int)ft_sqrt(*size * 4);
     grid_setter(grid, size);
     while (recursor(tetriminos, 0, grid, size) == 0 && *size <= 16)
