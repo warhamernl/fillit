@@ -30,7 +30,7 @@ struct          s_tetrimino
 int             opening(char *str, struct s_tetrimino tetriminos[27]);
 void            cubes_offsetter(uint64_t tetrimino, short int cubes[5][2]);
 void            place_tetri(struct s_tetrimino *tetrimino, uint64_t *grid);
-void	        remove_tetri(struct s_tetrimino *tetriminos, short int i, uint64_t *grid);
+void	        remove_tetri(struct s_tetrimino *tetriminos, uint64_t *grid);
 void            zeewier(struct s_tetrimino *tetriminos, uint64_t *grid, short int *size);
 short int   	first_unplaced(struct s_tetrimino *tetriminos, const short int const_i); // should a const variable have a specific name? double check pls - Kim
 short int   	next_unplaced(struct s_tetrimino *tetriminos, short int i);
