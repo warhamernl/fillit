@@ -83,11 +83,11 @@ static int    recursor(struct s_tetrimino *tetriminos, const short int const_i, 
 {
     short int   i;
 
+    i = first_unplaced(tetriminos, const_i); // norm-conforming? idk if variables need to be initialized right after being declared
+    if (i == 26 && !(tetriminos[const_i].binary_tetrimino != 0 && tetriminos[const_i].placed == 0)) // this signifies success
+        return (1);
     if (const_i == 26) // this signifies a dead-end
         return (0);
-    i = first_unplaced(tetriminos, const_i); // norm-conforming? idk if variables need to be initialized right after being declared
-    if (i == 26) // this signifies success
-        return (1);
     if (can_fit(&tetriminos[const_i], grid, size))
     {
         place_tetri(&tetriminos[const_i], grid);
@@ -97,7 +97,7 @@ static int    recursor(struct s_tetrimino *tetriminos, const short int const_i, 
         return (0);
     }
     else
-        return (recursor(tetriminos, next_unplaced(tetriminos, i), grid, size));
+        return (recursor(tetriminos, next_unplaced(tetriminos, const_i), grid, size));
 }
 
 void        zeewier(struct s_tetrimino *tetriminos, uint64_t *grid, short int *size)
@@ -105,7 +105,7 @@ void        zeewier(struct s_tetrimino *tetriminos, uint64_t *grid, short int *s
     *size = 0;
     while (tetriminos[*size].binary_tetrimino != 0)
         (*size)++;
-    tetriminos[27].placed = *size; // this will keep track of how many tetriminos there are
+//    tetriminos[27].placed = *size; // experimental, this will keep track of how many tetriminos there are
     *size = (short int)ft_sqrt(*size * 4);
     grid_setter(grid, size);
     while (recursor(tetriminos, 0, grid, size) == 0 && *size <= 16)
