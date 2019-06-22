@@ -35,7 +35,7 @@ static char identify_tetri(struct s_tetrimino *tetriminos, short int h, short in
 	return ('.');
 }
 
-void	print_output(uint64_t *grid, struct s_tetrimino *tetriminos, short int *size) // maak dit static voor submission
+void	print_output(uint64_t *grid, struct s_tetrimino *tetriminos, short int *size) // maak deze functie static voor submission
 {
 	short int	h;
 	short int	w;
@@ -98,7 +98,7 @@ int		main(int argc, char **argv)
 		while (i < 26)
 		{
 			cubes_offsetter(tetriminos[i].binary_tetrimino, tetriminos[i].cubes);
-			tetriminos[i].placed = (short int)0;
+			tetriminos[i].placed = 0;
 			i++;
 		}
 		zeewier(tetriminos, grid, &size);
