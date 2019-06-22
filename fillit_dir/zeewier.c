@@ -81,12 +81,10 @@ static int      can_fit(struct s_tetrimino *tetrimino, uint64_t *grid, short int
 
 static int    recursor(struct s_tetrimino *tetriminos, short int i, uint64_t *grid, short int *size)
 {
-    if (tetriminos[i].binary_tetrimino == 0)
-    {
-        if (first_unplaced(tetriminos, 42) == 27)
-            return (1); // all done, program succesful
-        return (0); // this road is a dead-end
-    }
+    if (i == 27)
+        return (1); // klaar
+    if (i == 26)
+        return (0); // doodlopende weg
     if (can_fit(&tetriminos[i], grid, size))
     {
         place_tetri(&tetriminos[i], grid);
