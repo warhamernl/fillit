@@ -108,15 +108,26 @@ static int    recursor(struct s_tetrimino *tetriminos, const short int const_i, 
 
 void        zeewier(struct s_tetrimino *tetriminos, uint64_t *grid, short int *size)
 {
+    short int   i;
+
     *size = 0;
     while (tetriminos[*size].binary_tetrimino != 0)
         (*size)++;
 //    tetriminos[27].placed = *size; // experimental, this will keep track of how many tetriminos there are
     *size = (short int)ft_sqrt(*size * 4);
     grid_setter(grid, size);
-    while (recursor(tetriminos, 0, grid, size) == 0 && *size <= 16)
+    while (*size <= 16)
     {
+        i = 0;
+        while (tetriminos[i].binary_tetrimino != 0 && i < 26)
+        {
+            if(recursor(tetriminos, i, grid, size))
+                return ;
+                i++;
+        }
         (*size)++;
         grid_setter(grid, size);
     }
 }
+
+//    while (recursor(tetriminos, 0, grid, size) == 0 && *size <= 16)
