@@ -23,12 +23,12 @@
 struct          s_tetrimino
 {
     uint64_t    binary_tetrimino;
-    short int   cubes[5][2];
+    short int   cubes[6][2];
     short int   placed; // this will track whether the tetrimino is currently in the grid
 };
 
 int             opening(char *str, struct s_tetrimino tetriminos[27]);
-void            cubes_offsetter(uint64_t tetrimino, short int cubes[5][2]);
+void            cubes_offsetter(uint64_t tetrimino, short int cubes[6][2]);
 void            place_tetri(struct s_tetrimino *tetrimino, uint64_t *grid);
 void	        remove_tetri(struct s_tetrimino *tetriminos, uint64_t *grid);
 void            zeewier(struct s_tetrimino *tetriminos, uint64_t *grid, short int *size);
