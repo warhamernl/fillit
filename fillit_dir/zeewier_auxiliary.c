@@ -30,7 +30,7 @@ void     place_tetri(struct s_tetrimino *tetrimino, uint64_t *grid)
 	(*tetrimino).placed = (short int)1;
 }
 
-void  cubes_offsetter(uint64_t tetrimino, short int cubes[5][2])
+void  cubes_offsetter(uint64_t tetrimino, short int cubes[6][2])
 {
 	int i;
 	int count;

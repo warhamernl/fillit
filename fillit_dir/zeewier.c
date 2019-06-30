@@ -12,7 +12,7 @@
 
 #include "fillit.h"
 
-static int      fits_entire_grid(uint64_t *grid, short int cubes[5][2])
+static int      fits_entire_grid(uint64_t *grid, short int cubes[6][2])
 {
     short int   i;
     
@@ -52,10 +52,10 @@ static void     grid_setter(uint64_t *grid, short int *size)
 
 static int      can_fit(struct s_tetrimino *tetrimino, uint64_t *grid, short int *size)
 {
-    (*tetrimino).cubes[4][0] = (*tetrimino).cubes[3][0];
+    (*tetrimino).cubes[4][0] = (*tetrimino).cubes[3][0] + (*tetrimino).cubes[5][0];
     while ((*tetrimino).cubes[4][0] < *size)
     {
-        (*tetrimino).cubes[4][1] = (*tetrimino).cubes[3][1];
+        (*tetrimino).cubes[4][1] = (*tetrimino).cubes[3][1] + (*tetrimino).cubes[5][1];
         while ((*tetrimino).cubes[4][1] < *size)
         {
             if ((((*tetrimino).cubes[4][0] % 4 >= (*tetrimino).cubes[3][0]
@@ -88,22 +88,30 @@ static int    recursor(struct s_tetrimino *tetriminos, const short int const_i, 
         return (1);
     if (const_i == 26) // this signifies a dead-end
         return (0);
-    if (can_fit(&tetriminos[const_i], grid, size))
+    tetriminos[const_i].cubes[5][0] = tetriminos[const_i].cubes[3][0];
+    while (tetriminos[const_i].cubes[3][0] + tetriminos[const_i].cubes[5][0] < *size)
     {
-        place_tetri(&tetriminos[const_i], grid);
-        while (i < 26)
+        tetriminos[const_i].cubes[5][1] = tetriminos[const_i].cubes[3][1];
+        while (tetriminos[const_i].cubes[3][1] + tetriminos[const_i].cubes[5][1] < *size)
         {
-            if (recursor(tetriminos, i, grid, size))
-                return (1);
-            i = next_unplaced(tetriminos, i);
+            if (can_fit(&tetriminos[const_i], grid, size))
+            {
+                place_tetri(&tetriminos[const_i], grid);
+                while (i < 26)
+                {
+                    if (recursor(tetriminos, i, grid, size))
+                        return (1);
+                    i = next_unplaced(tetriminos, i);
+                }
+                if (first_unplaced(tetriminos, i) == 26 && !(tetriminos[const_i].binary_tetrimino != 0 && tetriminos[const_i].placed == 0))
+                    return (1);
+                remove_tetri(&tetriminos[const_i], grid); // in dit geval moet ie weer can fit doen met een offset in [5][0] en/of [5][1]
+            }
+            tetriminos[const_i].cubes[5][1]++;
         }
-        if (first_unplaced(tetriminos, i) == 26 && !(tetriminos[const_i].binary_tetrimino != 0 && tetriminos[const_i].placed == 0))
-            return (1);
-        remove_tetri(&tetriminos[const_i], grid);
-        return (0);
+        tetriminos[const_i].cubes[5][0]++;
     }
-    else
-        return (recursor(tetriminos, next_unplaced(tetriminos, const_i), grid, size));
+    return (recursor(tetriminos, next_unplaced(tetriminos, const_i), grid, size));
 }
 
 void        zeewier(struct s_tetrimino *tetriminos, uint64_t *grid, short int *size)
@@ -128,5 +136,3 @@ void        zeewier(struct s_tetrimino *tetriminos, uint64_t *grid, short int *s
         grid_setter(grid, size);
     }
 }
-
-//    while (recursor(tetriminos, 0, grid, size) == 0 && *size <= 16)
