@@ -28,10 +28,8 @@ static int	lettercounter(const char *s, char c)
 
 static int	wordcounter(const char *s, char c)
 {
-	int	i;
 	int	wordcount;
 
-	i = 0;
 	wordcount = 0;
 	if (*s != c && *s)
 	{

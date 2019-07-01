@@ -128,9 +128,9 @@ void        zeewier(struct s_tetrimino *tetriminos, uint64_t *grid, short int *s
         i = 0;
         while (tetriminos[i].binary_tetrimino != 0 && i < 26)
         {
-            if(recursor(tetriminos, i, grid, size))
+            if (recursor(tetriminos, i, grid, size))
                 return ;
-                i++;
+            i++;
         }
         (*size)++;
         grid_setter(grid, size);

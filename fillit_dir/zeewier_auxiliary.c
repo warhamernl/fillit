@@ -79,9 +79,11 @@ short int	first_unplaced(struct s_tetrimino *tetriminos, const short int const_i
 	while (i < 26)
 	{
 		if (tetriminos[i].binary_tetrimino != 0 && tetriminos[i].placed == 0 && i != const_i)
-			break;
+			return (i);
 		i++;
 	}
+	if (tetriminos[const_i].placed == 0 && const_i != 26)
+		return (const_i);
 	return (i); // a return of 26 means there are no unplaced tetris except possibly const_i
 }
 
