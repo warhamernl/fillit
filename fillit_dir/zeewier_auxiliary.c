@@ -6,55 +6,49 @@
 /*   By: mlokhors <mlokhors@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/06/05 18:42:26 by mlokhors       #+#    #+#                */
-/*   Updated: 2019/06/09 18:17:29 by mlokhors      ########   odam.nl         */
+/*   Updated: 2019/07/04 17:15:18 by mlokhors      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
-void	remove_tetri(struct s_tetrimino *tetrimino, uint64_t *grid)
+void			remove_tetri(struct s_tetrimino *tetrimino, uint64_t *grid)
 {
-	grid[(*tetrimino).cubes[4][0] / 4] ^= 1ull << (63 - ((*tetrimino).cubes[4][1] + (*tetrimino).cubes[4][0] % 4 * 16));
-	grid[((*tetrimino).cubes[4][0] + (*tetrimino).cubes[0][0])/ 4] ^= 1ull << (63 - ((*tetrimino).cubes[4][1] + (*tetrimino).cubes[0][1] + (((*tetrimino).cubes[4][0] + (*tetrimino).cubes[0][0]) % 4 * 16)));
-	grid[((*tetrimino).cubes[4][0] + (*tetrimino).cubes[1][0])/ 4] ^= 1ull << (63 - ((*tetrimino).cubes[4][1] + (*tetrimino).cubes[1][1] + (((*tetrimino).cubes[4][0] + (*tetrimino).cubes[1][0]) % 4 * 16)));
-	grid[((*tetrimino).cubes[4][0] + (*tetrimino).cubes[2][0])/ 4] ^= 1ull << (63 - ((*tetrimino).cubes[4][1] + (*tetrimino).cubes[2][1] + (((*tetrimino).cubes[4][0] + (*tetrimino).cubes[2][0]) % 4 * 16)));
+	grid[(*tetrimino).cubes[4][0] / 4] ^= 1ull << (63 -
+		((*tetrimino).cubes[4][1] + (*tetrimino).cubes[4][0] % 4 * 16));
+	grid[((*tetrimino).cubes[4][0] + (*tetrimino).cubes[0][0]) / 4] ^=
+		1ull << (63 - ((*tetrimino).cubes[4][1] + (*tetrimino).cubes[0][1] +
+			(((*tetrimino).cubes[4][0] + (*tetrimino).cubes[0][0]) % 4 * 16)));
+	grid[((*tetrimino).cubes[4][0] + (*tetrimino).cubes[1][0]) / 4] ^=
+		1ull << (63 - ((*tetrimino).cubes[4][1] + (*tetrimino).cubes[1][1] +
+			(((*tetrimino).cubes[4][0] + (*tetrimino).cubes[1][0]) % 4 * 16)));
+	grid[((*tetrimino).cubes[4][0] + (*tetrimino).cubes[2][0]) / 4] ^=
+		1ull << (63 - ((*tetrimino).cubes[4][1] + (*tetrimino).cubes[2][1] +
+			(((*tetrimino).cubes[4][0] + (*tetrimino).cubes[2][0]) % 4 * 16)));
 	(*tetrimino).placed = (short int)0;
 }
 
-void     place_tetri(struct s_tetrimino *tetrimino, uint64_t *grid)
+void			place_tetri(struct s_tetrimino *tetrimino, uint64_t *grid)
 {
-	grid[(*tetrimino).cubes[4][0] / 4] |= 1ull << (63 - ((*tetrimino).cubes[4][1] + (*tetrimino).cubes[4][0] % 4 * 16));
-	grid[((*tetrimino).cubes[4][0] + (*tetrimino).cubes[0][0])/ 4] |= 1ull << (63 - (((*tetrimino).cubes[4][1] + (*tetrimino).cubes[0][1] ) + (((*tetrimino).cubes[4][0] + (*tetrimino).cubes[0][0]) % 4 * 16)));
-	grid[((*tetrimino).cubes[4][0] + (*tetrimino).cubes[1][0])/ 4] |= 1ull << (63 - (((*tetrimino).cubes[4][1] + (*tetrimino).cubes[1][1] ) + (((*tetrimino).cubes[4][0] + (*tetrimino).cubes[1][0]) % 4 * 16)));
-	grid[((*tetrimino).cubes[4][0] + (*tetrimino).cubes[2][0])/ 4] |= 1ull << (63 - (((*tetrimino).cubes[4][1] + (*tetrimino).cubes[2][1] ) + (((*tetrimino).cubes[4][0] + (*tetrimino).cubes[2][0]) % 4 * 16)));
+	grid[(*tetrimino).cubes[4][0] / 4] |= 1ull << (63 -
+		((*tetrimino).cubes[4][1] + (*tetrimino).cubes[4][0] % 4 * 16));
+	grid[((*tetrimino).cubes[4][0] + (*tetrimino).cubes[0][0]) / 4] |=
+		1ull << (63 - (((*tetrimino).cubes[4][1] + (*tetrimino).cubes[0][1]) +
+			(((*tetrimino).cubes[4][0] + (*tetrimino).cubes[0][0]) % 4 * 16)));
+	grid[((*tetrimino).cubes[4][0] + (*tetrimino).cubes[1][0]) / 4] |=
+		1ull << (63 - (((*tetrimino).cubes[4][1] + (*tetrimino).cubes[1][1]) +
+			(((*tetrimino).cubes[4][0] + (*tetrimino).cubes[1][0]) % 4 * 16)));
+	grid[((*tetrimino).cubes[4][0] + (*tetrimino).cubes[2][0]) / 4] |=
+		1ull << (63 - (((*tetrimino).cubes[4][1] + (*tetrimino).cubes[2][1]) +
+			(((*tetrimino).cubes[4][0] + (*tetrimino).cubes[2][0]) % 4 * 16)));
 	(*tetrimino).placed = (short int)1;
 }
 
-void  cubes_offsetter(uint64_t tetrimino, short int cubes[6][2])
+static void		cubes_follow(short int cubes[5][2])
 {
-	int i;
 	int count;
 	int count2;
-	int	nl;
 
-	nl = 0;
-	i = 0;
-	count = 0;
-	count2 = 0;
-	while (i < 64)
-	{
-		if (tetrimino & (1ull << (63 - i)))
-		{
-			nl = 0;
-			nl = ((i + 1)/ 16);
-			cubes[count][count2] = nl;
-			count2++;
-			cubes[count][count2] = i - (nl * 16);
-			count++; 
-			count2 = 0;
-		}
-		i++;		
-	}
 	count = 0;
 	count2 = 0;
 	while (count < 3)
@@ -71,28 +65,42 @@ void  cubes_offsetter(uint64_t tetrimino, short int cubes[6][2])
 	cubes[4][1] = cubes[3][1];
 }
 
-short int	first_unplaced(struct s_tetrimino *tetriminos, const short int const_i) // should a const variable have a specific name? double check pls - Kim
+void			cubes_offsetter(uint64_t tetrimino, short int cubes[5][2])
 {
-	short int	i;
+	int i;
+	int count;
+	int count2;
+	int	nl;
 
+	nl = 0;
 	i = 0;
-	while (i < 26)
+	count = 0;
+	count2 = 0;
+	while (i < 64)
 	{
-		if (tetriminos[i].binary_tetrimino != 0 && tetriminos[i].placed == 0 && i != const_i)
-			break;
+		if (tetrimino & (1ull << (63 - i)))
+		{
+			nl = 0;
+			nl = ((i + 1) / 16);
+			cubes[count][count2] = nl;
+			count2++;
+			cubes[count][count2] = i - (nl * 16);
+			count++;
+			count2 = 0;
+		}
 		i++;
 	}
-	return (i); // a return of 26 means there are no unplaced tetris except possibly const_i
+	cubes_follow(cubes);
 }
 
-short int	next_unplaced(struct s_tetrimino *tetriminos, short int i)
+short int		next_unplaced(struct s_tetrimino *tetriminos, short int i)
 {
 	i++;
 	while (i < 26)
 	{
 		if (tetriminos[i].binary_tetrimino != 0 && tetriminos[i].placed == 0)
-			break;
+			break ;
 		i++;
 	}
-	return (i); // a return of 26 means there are no unplaced tetris after i's starting value
+	return (i);
 }
