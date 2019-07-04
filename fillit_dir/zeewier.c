@@ -88,30 +88,22 @@ static int    recursor(struct s_tetrimino *tetriminos, const short int const_i, 
         return (1);
     if (const_i == 26) // this signifies a dead-end
         return (0);
-    tetriminos[const_i].cubes[5][0] = tetriminos[const_i].cubes[3][0];
-    while (tetriminos[const_i].cubes[3][0] + tetriminos[const_i].cubes[5][0] < *size)
+    if (can_fit(&tetriminos[const_i], grid, size))
     {
-        tetriminos[const_i].cubes[5][1] = tetriminos[const_i].cubes[3][1];
-        while (tetriminos[const_i].cubes[3][1] + tetriminos[const_i].cubes[5][1] < *size)
+        place_tetri(&tetriminos[const_i], grid);
+        while (i < 26)
         {
-            if (can_fit(&tetriminos[const_i], grid, size))
-            {
-                place_tetri(&tetriminos[const_i], grid);
-                while (i < 26)
-                {
-                    if (recursor(tetriminos, i, grid, size))
-                        return (1);
-                    i = next_unplaced(tetriminos, i);
-                }
-                if (first_unplaced(tetriminos, i) == 26 && !(tetriminos[const_i].binary_tetrimino != 0 && tetriminos[const_i].placed == 0))
-                    return (1);
-                remove_tetri(&tetriminos[const_i], grid); // in dit geval moet ie weer can fit doen met een offset in [5][0] en/of [5][1]
-            }
-            tetriminos[const_i].cubes[5][1]++;
+            if (recursor(tetriminos, i, grid, size))
+                return (1);
+            i = next_unplaced(tetriminos, i);
         }
-        tetriminos[const_i].cubes[5][0]++;
+        if (first_unplaced(tetriminos, i) == 26 && !(tetriminos[const_i].binary_tetrimino != 0 && tetriminos[const_i].placed == 0))
+            return (1);
+        remove_tetri(&tetriminos[const_i], grid); // in dit geval moet ie weer can fit doen met een offset in [5][0] en/of [5][1]
+        return (0);
     }
-    return (recursor(tetriminos, next_unplaced(tetriminos, const_i), grid, size));
+    else
+        return (recursor(tetriminos, next_unplaced(tetriminos, const_i), grid, size));
 }
 
 void        zeewier(struct s_tetrimino *tetriminos, uint64_t *grid, short int *size)
@@ -128,11 +120,13 @@ void        zeewier(struct s_tetrimino *tetriminos, uint64_t *grid, short int *s
         i = 0;
         while (tetriminos[i].binary_tetrimino != 0 && i < 26)
         {
-            if (recursor(tetriminos, i, grid, size))
+            if(recursor(tetriminos, i, grid, size))
                 return ;
-            i++;
+                i++;
         }
         (*size)++;
         grid_setter(grid, size);
     }
 }
+
+//    while (recursor(tetriminos, 0, grid, size) == 0 && *size <= 16)
