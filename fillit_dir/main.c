@@ -6,13 +6,14 @@
 /*   By: mlokhors <mlokhors@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/06/05 18:28:34 by mlokhors       #+#    #+#                */
-/*   Updated: 2019/06/09 18:52:31 by mlokhors      ########   odam.nl         */
+/*   Updated: 2019/07/04 08:38:19 by mlokhors      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
-static char identify_tetri(struct s_tetrimino *tetriminos, short int h, short int w)
+static char		identify_tetri(struct s_tetrimino *tetriminos,
+					short int h, short int w)
 {
 	short int	i;
 
@@ -35,7 +36,8 @@ static char identify_tetri(struct s_tetrimino *tetriminos, short int h, short in
 	return ('.');
 }
 
-void	print_output(uint64_t *grid, struct s_tetrimino *tetriminos, short int *size) // maak deze functie static voor submission
+static void		print_output(uint64_t *grid,
+					struct s_tetrimino *tetriminos, short int *size)
 {
 	short int	h;
 	short int	w;
@@ -57,55 +59,60 @@ void	print_output(uint64_t *grid, struct s_tetrimino *tetriminos, short int *siz
 	}
 }
 
-int		main(int argc, char **argv)
+static void		empty(struct s_tetrimino *tetriminos)
 {
 	int i;
-	int d;
-	int	x;
-	int openiningcheck;
-	int gridi;
-	int gridd;
-	struct s_tetrimino tetriminos[27];
-	uint64_t			grid[4];
-	short int	size;
+	int x;
 
-	openiningcheck = 0;
-	gridi = 0;
-	gridd = 0;
-	d = 0;
+	x = 0;
 	i = 0;
-	x = -1;
+	while (i < 27)
+	{
+		x = 0;
+		tetriminos[i].binary_tetrimino = 0;
+		while (x < 5)
+		{
+			tetriminos[i].cubes[x][0] = 0;
+			tetriminos[i].cubes[x][1] = 0;
+			x++;
+		}
+		i++;
+	}
+}
+
+static void		whileoffsetter(struct s_tetrimino *tetriminos)
+{
+	int i;
+
+	i = 0;
+	while (i < 26)
+	{
+		cubes_offsetter(tetriminos[i].binary_tetrimino,
+			tetriminos[i].cubes);
+		tetriminos[i].placed = 0;
+		i++;
+	}
+}
+
+int				main(int argc, char **argv)
+{
+	struct s_tetrimino		tetriminos[27];
+	uint64_t				grid[4];
+	short int				size;
+
 	if (argc == 2)
 	{
-		while (i < 27)
-		{
-			d = 0;
-			tetriminos[i].binary_tetrimino = 0;
-			while (d < 5)
-			{
-				tetriminos[i].cubes[d][0] = 0;
-				tetriminos[i].cubes[d][1] = 0;
-				d++;
-			}
-			i++;
-		}
-		i = 0;
+		empty(tetriminos);
 		if (opening(argv[1], tetriminos) == -1)
 		{
-			write (1, "error", 6);
+			write(1, "error", 6);
 			return (-1);
 		}
-		while (i < 26)
-		{
-			cubes_offsetter(tetriminos[i].binary_tetrimino, tetriminos[i].cubes);
-			tetriminos[i].placed = 0;
-			i++;
-		}
+		whileoffsetter(tetriminos);
 		zeewier(tetriminos, grid, &size);
-		gridi = 0;
 		print_output(grid, tetriminos, &size);
 	}
-	else 
+	else
 		write(1, "Usage: Source File Missing", 26);
-	return(0);
+	return (0);
 }

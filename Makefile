@@ -22,6 +22,8 @@ OBJ_DIR=./.obj
 OBJ_NAMES=	\
 			main \
 			reader \
+			shifting \
+			totalread \
 			zeewier_auxiliary \
 			zeewier \
 

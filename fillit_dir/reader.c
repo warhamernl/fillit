@@ -6,127 +6,29 @@
 /*   By: mlokhors <mlokhors@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/06/05 18:41:59 by mlokhors       #+#    #+#                */
-/*   Updated: 2019/06/09 15:43:51 by mlokhors      ########   odam.nl         */
+/*   Updated: 2019/07/04 08:22:03 by mlokhors      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
-static void total_read(int i, int bytes_read)
+
+static uint64_t		convert(char *str)
 {
-	if (bytes_read != ((i * 21) - 1))
-	{
-		write(1, "error\n", 6);
-		exit(-1);
-	}
-}
-
-static void	tetromove(int check, int *bracket, uint64_t *tetro)
-{
-	int count;
-
-	count = 0;
-	while (check != 1)
-	{
-		count = 0;
-		while (count < 4)
-		{
-			bracket[count] += 1;
-			count++;
-		}
-		*tetro <<= 1;
-		count = 0;
-		while (count < 4)
-		{
-			if (bracket[count] % 16 == 15)
-			{
-				check = 1;
-				break;
-			}
-			count++;
-		}		
-	}
-}
-
-static 	int	checkit(int *bracket)
-{
-	int count;
-
-	count = 0;
-	while (count < 4)
-	{
-		if (bracket[count] % 16 == 15)
-			return(1);
-		count++;
-	}
-	return (0);
-}
-
-static	void movebracket(int *bracket, uint64_t *tetro)
-{
-	while (bracket[3] + 16 < 64)
-	{
-		*tetro <<= 16;
-		bracket[3] += 16;
-		bracket[2] += 16;
-		bracket[1] += 16;
-		bracket[0] += 16;
-	}
-}
-
-static	void inzero(uint64_t tetro, int *bracket)
-{
-	int i;
-	int count;
-
-	count = 0;
-	i = 0;
-	while (i < 4)
-	{
-		bracket[i] = 0;
-		i++;
-	}
-	while (count != 4)
-	{
-		if (tetro & (1ull << i))
-		{
-			bracket[count] = i;
-			count++;
-		}
-		i++;		
-	}
-}
-
-static uint64_t shift(uint64_t tetro)
-{
-	int count;
-	int bracket[4];
-	int check;
-
-	count = 0;
-	check = 0;
-	inzero(tetro, bracket);
-	movebracket(bracket, &tetro);
-	check = checkit(bracket);
-	tetromove(check, bracket, &tetro);
-	return(tetro);
-}
-
-static uint64_t	convert(char *str)
-{
-	int i;
-	uint64_t tetro;
-	int nl;
+	int			i;
+	uint64_t	tetro;
+	int			nl;
 
 	nl = 0;
 	tetro = 0;
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == '\n' && (i == 4 || i == 9 || i == 14 || i == 19 || i == 20))
+		if (str[i] == '\n' && (i == 4 || i == 9 ||
+			i == 14 || i == 19 || i == 20))
 			nl++;
 		if (str[i] == '#')
 		{
-			tetro |= (1ull << ((63 - i + nl) - (nl * 12))); 
+			tetro |= (1ull << ((63 - i + nl) - (nl * 12)));
 		}
 		i++;
 	}
@@ -138,7 +40,7 @@ static uint64_t	convert(char *str)
 	return (shift(tetro));
 }
 
-static int		border (char *str , int i)
+static int			border(char *str, int i)
 {
 	int side;
 
@@ -154,9 +56,9 @@ static int		border (char *str , int i)
 	return (side);
 }
 
-static int		check(char *str)
+static int			check(char *str)
 {
-	int i;
+	int	i;
 	int squarecount;
 	int neighbour;
 
@@ -166,26 +68,25 @@ static int		check(char *str)
 	while (str[i])
 	{
 		if (str[i] != '\n' && str[i] != '.' && str[i] != '#')
-			return(-1);
+			return (-1);
 		if (str[i] == '#')
 		{
 			neighbour += border(str, i);
 			squarecount++;
 			if (squarecount > 4)
-				return(-1);
+				return (-1);
 		}
 		i++;
 	}
 	if (neighbour != 6 && neighbour != 8)
 		return (-1);
-	return(neighbour);
+	return (neighbour);
 }
-
 
 static uint64_t		lezen(int fd, int *bytes_read)
 {
 	uint64_t	tetro;
-	char 		*cache;
+	char		*cache;
 	int			checki;
 
 	tetro = 0;
@@ -196,7 +97,7 @@ static uint64_t		lezen(int fd, int *bytes_read)
 	checki = check(cache);
 	if (checki == -1)
 	{
-		write(1, "error", 6);// geen printf pls
+		write(1, "error", 6);
 		exit(-1);
 	}
 	tetro = convert(cache);
@@ -204,7 +105,7 @@ static uint64_t		lezen(int fd, int *bytes_read)
 	return (tetro);
 }
 
-int		opening(char *str, struct s_tetrimino tetriminos[27])
+int					opening(char *str, struct s_tetrimino tetriminos[27])
 {
 	int			fd;
 	int			i;
@@ -219,12 +120,12 @@ int		opening(char *str, struct s_tetrimino tetriminos[27])
 	{
 		tetriminos[i].binary_tetrimino = lezen(fd, &bytes_read);
 		if (i == 26)
-			return(-1);
+			return (-1);
 		if (tetriminos[i].binary_tetrimino == 0)
-			break;
-		i++;	
+			break ;
+		i++;
 	}
 	close(fd);
 	total_read(i, bytes_read);
-	return(0);
+	return (0);
 }
