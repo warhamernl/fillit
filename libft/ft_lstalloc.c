@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_lstalloc.c                                     :+:    :+:            */
+/*   ft_lstalloc.c                                      :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: kde-wint <kde-wint@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/04/08 18:29:51 by kde-wint      #+#    #+#                 */
-/*   Updated: 2019/04/08 18:45:20 by kde-wint      ########   odam.nl         */
+/*   Created: 2019/07/06 12:24:28 by kde-wint      #+#    #+#                 */
+/*   Updated: 2019/07/06 12:32:40 by kde-wint      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <stdlib.h>
 
-t_list  *ft_lstalloc(size_t content_size)
+t_list	*ft_lstalloc(size_t content_size)
 {
 	t_list *tmp;
 
@@ -21,5 +21,5 @@ t_list  *ft_lstalloc(size_t content_size)
 	tmp->content = (void *)malloc(sizeof(unsigned char) * content_size);
 	tmp->content_size = content_size;
 	tmp->next = NULL;
-    return (tmp);
+	return (tmp);
 }

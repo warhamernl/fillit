@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   zeewier_auxiliary.c                                :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: mlokhors <mlokhors@student.codam.n>          +#+                     */
+/*   By: kde-wint <kde-wint@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/06/05 18:42:26 by mlokhors       #+#    #+#                */
-/*   Updated: 2019/07/04 17:15:18 by mlokhors      ########   odam.nl         */
+/*   Created: 2019/07/06 12:30:16 by kde-wint      #+#    #+#                 */
+/*   Updated: 2019/07/06 12:30:19 by kde-wint      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
