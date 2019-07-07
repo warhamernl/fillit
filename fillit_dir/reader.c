@@ -6,7 +6,7 @@
 /*   By: mlokhors <mlokhors@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/06/05 18:41:59 by mlokhors       #+#    #+#                */
-/*   Updated: 2019/07/04 08:22:03 by mlokhors      ########   odam.nl         */
+/*   Updated: 2019/07/07 13:40:01 by kde-wint      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,7 @@ static uint64_t		convert(char *str)
 			i == 14 || i == 19 || i == 20))
 			nl++;
 		if (str[i] == '#')
-		{
 			tetro |= (1ull << ((63 - i + nl) - (nl * 12)));
-		}
 		i++;
 	}
 	if ((nl != 5 && i == 21) || (nl != 4 && i == 20))
@@ -97,7 +95,7 @@ static uint64_t		lezen(int fd, int *bytes_read)
 	checki = check(cache);
 	if (checki == -1)
 	{
-		write(1, "error", 6);
+		write(1, "error\n", 6);
 		exit(-1);
 	}
 	tetro = convert(cache);

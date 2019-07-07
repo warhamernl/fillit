@@ -80,7 +80,6 @@ void			cubes_offsetter(uint64_t tetrimino, short int cubes[5][2])
 	{
 		if (tetrimino & (1ull << (63 - i)))
 		{
-			nl = 0;
 			nl = ((i + 1) / 16);
 			cubes[count][count2] = nl;
 			count2++;

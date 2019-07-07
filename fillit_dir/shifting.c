@@ -16,7 +16,6 @@ static void		tetromove(int check, int *bracket, uint64_t *tetro)
 {
 	int count;
 
-	count = 0;
 	while (check != 1)
 	{
 		count = 0;

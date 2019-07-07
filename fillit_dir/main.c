@@ -70,6 +70,7 @@ static void		empty(struct s_tetrimino *tetriminos)
 	{
 		x = 0;
 		tetriminos[i].binary_tetrimino = 0;
+		tetriminos[i].placed = 0;
 		while (x < 5)
 		{
 			tetriminos[i].cubes[x][0] = 0;
@@ -89,7 +90,6 @@ static void		whileoffsetter(struct s_tetrimino *tetriminos)
 	{
 		cubes_offsetter(tetriminos[i].binary_tetrimino,
 			tetriminos[i].cubes);
-		tetriminos[i].placed = 0;
 		i++;
 	}
 }
@@ -105,7 +105,7 @@ int				main(int argc, char **argv)
 		empty(tetriminos);
 		if (opening(argv[1], tetriminos) == -1)
 		{
-			write(1, "error", 6);
+			write(1, "error\n", 6);
 			return (-1);
 		}
 		whileoffsetter(tetriminos);
@@ -113,6 +113,6 @@ int				main(int argc, char **argv)
 		print_output(grid, tetriminos, &size);
 	}
 	else
-		write(1, "Usage: Source File Missing", 26);
+		write(1, "Usage: Source File Missing\n", 27);
 	return (0);
 }
