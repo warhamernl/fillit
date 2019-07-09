@@ -91,7 +91,10 @@ static uint64_t		lezen(int fd, int *bytes_read)
 	cache = ft_strnew(21);
 	*bytes_read += read(fd, cache, 21);
 	if (cache[0] == '\0')
+	{
+		free(cache);
 		return (0);
+	}
 	checki = check(cache);
 	if (checki == -1)
 	{
