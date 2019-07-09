@@ -41,7 +41,7 @@ void			place_tetri(struct s_tetrimino *tetrimino, uint64_t *grid)
 	grid[((*tetrimino).cubes[4][0] + (*tetrimino).cubes[2][0]) / 4] |=
 		1ull << (63 - (((*tetrimino).cubes[4][1] + (*tetrimino).cubes[2][1]) +
 			(((*tetrimino).cubes[4][0] + (*tetrimino).cubes[2][0]) % 4 * 16)));
-	(*tetrimino).placed = (short int)1;
+	(*tetrimino).placed = 1;
 }
 
 static void		cubes_follow(short int cubes[5][2])
