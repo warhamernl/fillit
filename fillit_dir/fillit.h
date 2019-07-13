@@ -33,4 +33,5 @@ void			zeewier(struct s_tetrimino *tetriminos,
 short int		next_unplaced(struct s_tetrimino *tetriminos, short int i);
 uint64_t		shift(uint64_t tetro);
 void			total_read(int i, int bytes_read);
+
 #endif

@@ -21,6 +21,7 @@ OBJ_DIR=./.obj
 
 OBJ_NAMES=	\
 			main \
+			main_auxiliary \
 			reader \
 			shifting \
 			totalread \
