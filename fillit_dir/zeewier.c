@@ -12,7 +12,7 @@
 
 #include "fillit.h"
 
-static int		fits_entire_grid(uint64_t *grid,
+static int			fits_entire_grid(uint64_t *grid,
 	struct s_tetrimino *tetriminos, const short int const_i)
 {
 	short int	i;
@@ -35,7 +35,7 @@ static int		fits_entire_grid(uint64_t *grid,
 	return (1);
 }
 
-static void		grid_setter(uint64_t *grid, short int size)
+static void			grid_setter(uint64_t *grid, short int size)
 {
 	short int h;
 	short int w;
@@ -57,15 +57,19 @@ static void		grid_setter(uint64_t *grid, short int size)
 	}
 }
 
-static int		recursor(struct s_tetrimino *tetriminos, short int i,
+static int			recursor(struct s_tetrimino *tetriminos, short int i,
 				uint64_t *grid, short int size)
 {
+	short int	w_initialized;
+
 	if (i == 26)
 		return (1);
-	tetriminos[i].cubes[4][0] = tetriminos[i].cubes[3][0];
+	w_initialized = 0;
+	tetriminos[i].cubes[4][0] = height_initializer(tetriminos, i, size);
 	while (tetriminos[i].cubes[4][0] < size)
 	{
-		tetriminos[i].cubes[4][1] = tetriminos[i].cubes[3][1];
+		tetriminos[i].cubes[4][1] =
+			width_initializer(tetriminos, i, size, &w_initialized);
 		while (tetriminos[i].cubes[4][1] < size)
 		{
 			if (fits_entire_grid(grid, tetriminos, i))
@@ -83,7 +87,7 @@ static int		recursor(struct s_tetrimino *tetriminos, short int i,
 	return (0);
 }
 
-void			zeewier(struct s_tetrimino *tetriminos,
+void				zeewier(struct s_tetrimino *tetriminos,
 				uint64_t *grid, short int *size)
 {
 	*size = 0;

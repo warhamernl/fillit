@@ -26,10 +26,14 @@ struct			s_tetrimino
 
 int				opening(char *str, struct s_tetrimino tetriminos[27]);
 void			cubes_offsetter(uint64_t tetrimino, short int cubes[5][2]);
+short int		height_initializer(struct s_tetrimino *tetriminos,
+	short int i, short int size);
+short int		width_initializer(struct s_tetrimino *tetriminos,
+	short int i, short int size, short int *w_initialized);
 void			place_tetri(struct s_tetrimino *tetrimino, uint64_t *grid);
 void			remove_tetri(struct s_tetrimino *tetriminos, uint64_t *grid);
 void			zeewier(struct s_tetrimino *tetriminos,
-				uint64_t *grid, short int *size);
+	uint64_t *grid, short int *size);
 short int		next_unplaced(struct s_tetrimino *tetriminos, short int i);
 uint64_t		shift(uint64_t tetro);
 void			total_read(int i, int bytes_read);
