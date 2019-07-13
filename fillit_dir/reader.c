@@ -120,10 +120,10 @@ int					opening(char *str, struct s_tetrimino tetriminos[27])
 	while (tetriminos[i].binary_tetrimino == 0)
 	{
 		tetriminos[i].binary_tetrimino = lezen(fd, &bytes_read);
-		if (i == 26)
-			return (-1);
 		if (tetriminos[i].binary_tetrimino == 0)
 			break ;
+		if (i == 26)
+			return (-1);
 		i++;
 	}
 	close(fd);
