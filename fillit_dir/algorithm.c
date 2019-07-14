@@ -87,7 +87,7 @@ static int			recursor(struct s_tetrimino *tetriminos, short int i,
 	return (0);
 }
 
-void				zeewier(struct s_tetrimino *tetriminos,
+void				algorithm(struct s_tetrimino *tetriminos,
 				uint64_t *grid, short int *size)
 {
 	*size = 0;

@@ -109,7 +109,7 @@ int				main(int argc, char **argv)
 			return (-1);
 		}
 		whileoffsetter(tetriminos);
-		zeewier(tetriminos, grid, &size);
+		algorithm(tetriminos, grid, &size);
 		print_output(grid, tetriminos, &size);
 	}
 	else

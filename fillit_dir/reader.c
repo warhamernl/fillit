@@ -81,7 +81,7 @@ static int			check(char *str)
 	return (neighbour);
 }
 
-static uint64_t		lezen(int fd, int *bytes_read)
+static uint64_t		reading(int fd, int *bytes_read)
 {
 	uint64_t	tetro;
 	char		*cache;
@@ -119,7 +119,7 @@ int					opening(char *str, struct s_tetrimino tetriminos[27])
 		return (-1);
 	while (tetriminos[i].binary_tetrimino == 0)
 	{
-		tetriminos[i].binary_tetrimino = lezen(fd, &bytes_read);
+		tetriminos[i].binary_tetrimino = reading(fd, &bytes_read);
 		if (tetriminos[i].binary_tetrimino == 0)
 			break ;
 		if (i == 26)

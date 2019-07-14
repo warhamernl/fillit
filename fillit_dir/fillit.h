@@ -32,7 +32,7 @@ short int		width_initializer(struct s_tetrimino *tetriminos,
 	short int i, short int size, short int *w_initialized);
 void			place_tetri(struct s_tetrimino *tetrimino, uint64_t *grid);
 void			remove_tetri(struct s_tetrimino *tetriminos, uint64_t *grid);
-void			zeewier(struct s_tetrimino *tetriminos,
+void			algorithm(struct s_tetrimino *tetriminos,
 	uint64_t *grid, short int *size);
 short int		next_unplaced(struct s_tetrimino *tetriminos, short int i);
 uint64_t		shift(uint64_t tetro);
