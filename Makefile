@@ -25,8 +25,8 @@ OBJ_NAMES=	\
 			reader \
 			shifting \
 			totalread \
-			zeewier_auxiliary \
-			zeewier \
+			algorithm_auxiliary \
+			algorithm \
 
 OBJS = $(patsubst %, $(OBJ_DIR)/%.o, $(OBJ_NAMES))
 SRCS = $(patsubst %, $(SRC_DIR)/%.c, $(OBJ_NAMES))
