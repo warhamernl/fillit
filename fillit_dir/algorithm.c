@@ -12,7 +12,7 @@
 
 #include "fillit.h"
 
-static int			fits_entire_grid(uint64_t *grid,
+static int			fits_entire_grid(unsigned long long *grid,
 	struct s_tetrimino *tetriminos, const short int const_i)
 {
 	short int	i;
@@ -35,7 +35,7 @@ static int			fits_entire_grid(uint64_t *grid,
 	return (1);
 }
 
-static void			grid_setter(uint64_t *grid, short int size)
+static void			grid_setter(unsigned long long *grid, short int size)
 {
 	short int h;
 	short int w;
@@ -58,7 +58,7 @@ static void			grid_setter(uint64_t *grid, short int size)
 }
 
 static int			recursor(struct s_tetrimino *tetriminos, short int i,
-				uint64_t *grid, short int size)
+				unsigned long long *grid, short int size)
 {
 	short int	w_initialized;
 
@@ -88,7 +88,7 @@ static int			recursor(struct s_tetrimino *tetriminos, short int i,
 }
 
 void				algorithm(struct s_tetrimino *tetriminos,
-				uint64_t *grid, short int *size)
+				unsigned long long *grid, short int *size)
 {
 	*size = 0;
 	while (tetriminos[*size].binary_tetrimino != 0)

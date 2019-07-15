@@ -33,7 +33,8 @@ static void		cubes_follow(short int cubes[5][2])
 	cubes[4][1] = cubes[3][1];
 }
 
-void			cubes_offsetter(uint64_t tetrimino, short int cubes[5][2])
+void			cubes_offsetter(unsigned long long tetrimino,
+	short int cubes[5][2])
 {
 	int i;
 	int count;

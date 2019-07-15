@@ -36,7 +36,7 @@ static char		identify_tetri(struct s_tetrimino *tetriminos,
 	return ('.');
 }
 
-static void		print_output(uint64_t *grid,
+static void		print_output(unsigned long long *grid,
 					struct s_tetrimino *tetriminos, short int *size)
 {
 	short int	h;
@@ -97,7 +97,7 @@ static void		whileoffsetter(struct s_tetrimino *tetriminos)
 int				main(int argc, char **argv)
 {
 	struct s_tetrimino		tetriminos[27];
-	uint64_t				grid[4];
+	unsigned long long		grid[4];
 	short int				size;
 
 	if (argc == 2)

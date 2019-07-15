@@ -12,11 +12,11 @@
 
 #include "fillit.h"
 
-static uint64_t		convert(char *str)
+static unsigned long long	convert(char *str)
 {
-	int			i;
-	uint64_t	tetro;
-	int			nl;
+	int					i;
+	unsigned long long	tetro;
+	int					nl;
 
 	nl = 0;
 	tetro = 0;
@@ -38,7 +38,7 @@ static uint64_t		convert(char *str)
 	return (shift(tetro));
 }
 
-static int			border(char *str, int i)
+static int					border(char *str, int i)
 {
 	int side;
 
@@ -54,7 +54,7 @@ static int			border(char *str, int i)
 	return (side);
 }
 
-static int			check(char *str)
+static int					check(char *str)
 {
 	int	i;
 	int squarecount;
@@ -81,11 +81,11 @@ static int			check(char *str)
 	return (neighbour);
 }
 
-static uint64_t		reading(int fd, int *bytes_read)
+static unsigned long long	reading(int fd, int *bytes_read)
 {
-	uint64_t	tetro;
-	char		*cache;
-	int			checki;
+	unsigned long long	tetro;
+	char				*cache;
+	int					checki;
 
 	tetro = 0;
 	cache = ft_strnew(21);
@@ -106,7 +106,8 @@ static uint64_t		reading(int fd, int *bytes_read)
 	return (tetro);
 }
 
-int					opening(char *str, struct s_tetrimino tetriminos[27])
+int							opening(
+	char *str, struct s_tetrimino tetriminos[27])
 {
 	int			fd;
 	int			i;

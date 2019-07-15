@@ -12,7 +12,8 @@
 
 #include "fillit.h"
 
-static void		tetromove(int check, int *bracket, uint64_t *tetro)
+static void			tetromove(
+	int check, int *bracket, unsigned long long *tetro)
 {
 	int count;
 
@@ -38,7 +39,7 @@ static void		tetromove(int check, int *bracket, uint64_t *tetro)
 	}
 }
 
-static int		checkit(int *bracket)
+static int			checkit(int *bracket)
 {
 	int count;
 
@@ -52,7 +53,7 @@ static int		checkit(int *bracket)
 	return (0);
 }
 
-static void		movebracket(int *bracket, uint64_t *tetro)
+static void			movebracket(int *bracket, unsigned long long *tetro)
 {
 	while (bracket[3] + 16 < 64)
 	{
@@ -64,7 +65,7 @@ static void		movebracket(int *bracket, uint64_t *tetro)
 	}
 }
 
-static void		inzero(uint64_t tetro, int *bracket)
+static void			inzero(unsigned long long tetro, int *bracket)
 {
 	int i;
 	int count;
@@ -87,7 +88,7 @@ static void		inzero(uint64_t tetro, int *bracket)
 	}
 }
 
-uint64_t		shift(uint64_t tetro)
+unsigned long long	shift(unsigned long long tetro)
 {
 	int count;
 	int bracket[4];

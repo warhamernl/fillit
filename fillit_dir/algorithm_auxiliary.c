@@ -40,7 +40,8 @@ short int	width_initializer(struct s_tetrimino *tetriminos,
 		return (tetriminos[i].cubes[3][1]);
 }
 
-void		remove_tetri(struct s_tetrimino *tetrimino, uint64_t *grid)
+void		remove_tetri(struct s_tetrimino *tetrimino,
+	unsigned long long *grid)
 {
 	grid[(*tetrimino).cubes[4][0] / 4] ^= 1ull << (63 -
 		((*tetrimino).cubes[4][1] + (*tetrimino).cubes[4][0] % 4 * 16));
@@ -56,7 +57,7 @@ void		remove_tetri(struct s_tetrimino *tetrimino, uint64_t *grid)
 	(*tetrimino).placed = 0;
 }
 
-void		place_tetri(struct s_tetrimino *tetrimino, uint64_t *grid)
+void		place_tetri(struct s_tetrimino *tetrimino, unsigned long long *grid)
 {
 	grid[(*tetrimino).cubes[4][0] / 4] |= 1ull << (63 -
 		((*tetrimino).cubes[4][1] + (*tetrimino).cubes[4][0] % 4 * 16));
