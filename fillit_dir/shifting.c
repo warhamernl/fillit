@@ -90,11 +90,9 @@ static void			inzero(unsigned long long tetro, int *bracket)
 
 unsigned long long	shift(unsigned long long tetro)
 {
-	int count;
 	int bracket[4];
 	int check;
 
-	count = 0;
 	check = 0;
 	inzero(tetro, bracket);
 	movebracket(bracket, &tetro);
